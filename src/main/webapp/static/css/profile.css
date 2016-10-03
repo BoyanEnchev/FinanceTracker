@@ -1,0 +1,23 @@
+.row content {
+    margin: 0px auto;
+    padding: 50px 0px 50px 0px;
+    border-bottom: 1px ridge;
+    min-height: 400px;
+
+}
+
+.row-footer {
+    background-color: #AAffAA;
+    margin: 0 auto;
+    padding: 20px 0px 20px 0px;
+}
+
+.tab-content{
+    border-left: 1px solid #dddddd;
+    border-right: 1px solid #dddddd;
+    border-bottom: 1px solid #dddddd;
+    padding: 10px;
+}
+body {
+background-color: #a6e1ec;
+}

@@ -1,0 +1,43 @@
+
+#aside-id {
+    display: block;
+    float: left;
+    width: 300px;
+    border-top: 1px solid #a6e1ec;
+    padding-top: 10px;
+}
+
+aside {
+    float:left;
+    padding: 10px;
+    padding-right: 5px;
+    padding-left: 10px;
+    width: 250px;
+}
+
+#profile-pic{
+    height: 100px;
+    width: 124px;
+}
+
+
+#table-profile{
+    border-right: 1px solid #000000;
+
+}
+section {
+    width: 540px;
+    float: left;
+    padding-left: 30px;
+
+}
+
+main {
+    margin-top: 40px;
+}
+header:after{
+    clear: both;
+}
+.section-right{
+    float:right;
+}
