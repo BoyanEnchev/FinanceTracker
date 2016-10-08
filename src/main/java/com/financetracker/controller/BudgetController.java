@@ -29,33 +29,35 @@ public class BudgetController {
 	@RequestMapping(value = "/budget", method = RequestMethod.GET)
 	public String loadBudgetPage(Model model, HttpSession session)
 			throws BudgetItemException, UserException, TransactionException {
+		/*
+		 * if (session.getAttribute("user") == null) { return "redirect: index";
+		 * } else {
+		 */
 		BudgetItem item = new BudgetItem();
-		//BudgetItem item1 = new BudgetItem();
+		// BudgetItem item1 = new BudgetItem();
 		Transaction transaction = new Transaction();
 		model.addAttribute("item", item);
-		//model.addAttribute("item1", item1);
+		// model.addAttribute("item1", item1);
 		model.addAttribute("transaction", transaction);
 
 		int userID = ((User) session.getAttribute("user")).getId();
-		Map<BudgetItem, LinkedList<Transaction>> itemsTransactionsMap = new UserDAO().getBudgetItemsAndTransactionsByUserID(userID);
-		
+		Map<BudgetItem, LinkedList<Transaction>> itemsTransactionsMap = new UserDAO()
+				.getBudgetItemsAndTransactionsByUserID(userID);
+
 		ArrayList<BudgetItem> budgetItems = new ArrayList<BudgetItem>(itemsTransactionsMap.keySet());
 
 		TreeSet<String> incomeCategories = (TreeSet<String>) BudgetItem.getIncomeCategories();
 		TreeSet<String> expenseCategories = (TreeSet<String>) BudgetItem.getExpenseCategories();
-		
-		
+
 		Map<String, LinkedList<Transaction>> itemsNamesTransValues = new HashMap<>();
 		itemsTransactionsMap.forEach((budgetItem, list) -> itemsNamesTransValues.put(budgetItem.getCategory(), list));
-		
-		itemsNamesTransValues.forEach((k,v) -> System.out.println(v));
-		
+
+		itemsNamesTransValues.forEach((k, v) -> System.out.println(v));
+
 		model.addAttribute("budgetItems", budgetItems);
 		model.addAttribute("incomeCategories", incomeCategories);
 		model.addAttribute("expenseCategories", expenseCategories);
 		model.addAttribute("itemsNamesTransValues", itemsNamesTransValues);
-		
-		
 
 		session.setMaxInactiveInterval(-1);
 
@@ -68,17 +70,18 @@ public class BudgetController {
 
 		if (result.hasErrors()) {
 			BudgetItem item1 = new BudgetItem();
-			//BudgetItem item1 = new BudgetItem();
+			// BudgetItem item1 = new BudgetItem();
 			Transaction transaction = new Transaction();
 			model.addAttribute("item", item1);
-			//model.addAttribute("item1", item1);
+			// model.addAttribute("item1", item1);
 			model.addAttribute("transaction", transaction);
-			
+
 			int userID = ((User) session.getAttribute("user")).getId();
-			Map<BudgetItem, LinkedList<Transaction>> itemsTransactionsMap = new UserDAO().getBudgetItemsAndTransactionsByUserID(userID);
-			
+			Map<BudgetItem, LinkedList<Transaction>> itemsTransactionsMap = new UserDAO()
+					.getBudgetItemsAndTransactionsByUserID(userID);
+
 			ArrayList<BudgetItem> budgetItems = new ArrayList<BudgetItem>(itemsTransactionsMap.keySet());
-						
+
 			model.addAttribute("budgetItems", budgetItems);
 
 			return "budget";
@@ -97,26 +100,19 @@ public class BudgetController {
 		}
 	}
 	/*
-	@RequestMapping(value = "/budget1", method = RequestMethod.POST)
-	public String addExpenseItemForm(Model model, @ModelAttribute("item1") BudgetItem item1, BindingResult result,
-			HttpSession session) {
-
-		if (result.hasErrors()) {
-			return "budget";
-		} else {
-
-			try {
-				User user = (User) session.getAttribute("user");
-				System.err.println(user);
-
-				new UserDAO().addBudgetItem(user.getId(), item1);
-			} catch (UserException e) {
-				model.addAttribute("error", e);
-			}
-			session.setAttribute("item1" + item1.getId(), item1);
-
-			return "redirect:budget";
-		}
-	}
-	*/
+	 * @RequestMapping(value = "/budget1", method = RequestMethod.POST) public
+	 * String addExpenseItemForm(Model model, @ModelAttribute("item1")
+	 * BudgetItem item1, BindingResult result, HttpSession session) {
+	 * 
+	 * if (result.hasErrors()) { return "budget"; } else {
+	 * 
+	 * try { User user = (User) session.getAttribute("user");
+	 * System.err.println(user);
+	 * 
+	 * new UserDAO().addBudgetItem(user.getId(), item1); } catch (UserException
+	 * e) { model.addAttribute("error", e); } session.setAttribute("item1" +
+	 * item1.getId(), item1);
+	 * 
+	 * return "redirect:budget"; } }
+	 */
 }

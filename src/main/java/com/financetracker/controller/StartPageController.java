@@ -25,6 +25,14 @@ public class StartPageController {
 
 		return "index";
 	}
+	
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public String logoutPage(Model model, HttpSession session) {
+		
+		session.invalidate();
+		
+		return "index";
+	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String registerForm(Model model, @ModelAttribute("user") User user, BindingResult result) {

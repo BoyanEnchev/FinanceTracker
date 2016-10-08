@@ -1,16 +1,13 @@
 package com.financetracker.controller;
 
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.TreeSet;
 
 import javax.servlet.http.HttpSession;
 
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,6 +25,18 @@ import com.financetracker.model.UserDAO;
 
 @Controller
 public class TransactionController {
+	
+	@RequestMapping(value = "/transactions", method = RequestMethod.GET)
+	public String loadTransactionsPage(Model model, HttpSession session) throws UserException, BudgetItemException, TransactionException{
+		
+		int userID = ((User) session.getAttribute("user")).getId();
+		Map<BudgetItem, LinkedList<Transaction>> itemsTransactionsMap = new UserDAO().getBudgetItemsAndTransactionsByUserID(userID);
+		Map<String, LinkedList<Transaction>> itemsNamesTransValues = new HashMap<>();
+		itemsTransactionsMap.forEach((budgetItem, list) -> itemsNamesTransValues.put(budgetItem.getCategory(), list));
+		
+		return "transactions";
+	}
+	
 
 	@RequestMapping(value = "/transactionForm", method = RequestMethod.GET)
 	public String getBudgetItemForm(Model model) throws BudgetItemException {

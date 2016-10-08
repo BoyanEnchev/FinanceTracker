@@ -29,7 +29,8 @@ public class UserDAO {
 	private static final String SET_BUDGET_ITEM_PAYED_MONEY_SQL = "UPDATE budget_items SET payed_money = ? WHERE item_id = ?";
 	private static final String SELECT_BUDGET_ITEMS_SQL = "SELECT * FROM budget_items WHERE user_id = ?";
 	private static final String SELECT_TRANSACTIONS_SQL = "SELECT * FROM transactions WHERE item_id = ?";
-	private static final String GET_BUDGET_ITEM_BY_ID_SQL = "SELECT * FROM budget_items WHERE item_id = ?";;
+	private static final String GET_BUDGET_ITEM_BY_ID_SQL = "SELECT * FROM budget_items WHERE item_id = ?";
+	private static final String GET_TRANSACTIONS_FOR_LAST_7_DAYS = "SELECT * FROM transactions WHERE  date >= (SELECT CONVERT (VARCHAR(10), Getdate() - 6, 101)) AND date <= (SELECT CONVERT (VARCHAR(10), Getdate(), 101)) AND user_id = ? ORDER  BY timeOfTransaction";
 
 
 	public Integer registerUser(User user) throws UserException {
@@ -200,6 +201,63 @@ public class UserDAO {
 	}
 	
 	public Map<BudgetItem, LinkedList<Transaction>> getBudgetItemsAndTransactionsByUserID(int id) throws UserException, BudgetItemException, TransactionException{
+		Connection connection = DBConnection.getInstance().getConnection();
+
+		Map<BudgetItem, LinkedList<Transaction>> itemsWithTransactions = new HashMap<BudgetItem, LinkedList<Transaction>>();
+		try {
+			PreparedStatement ps = connection.prepareStatement(SELECT_BUDGET_ITEMS_SQL);
+			ps.setInt(1, id);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()){
+				
+				
+				Date ts = rs.getDate(4);
+				Instant instant = Instant.ofEpochMilli(ts.getTime());
+				LocalDateTime res = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+				
+				BudgetItem item = new BudgetItem(rs.getInt(2), rs.getString(5), rs.getBoolean(6), res);
+				
+				item.setId(rs.getInt(1));
+				item.setPayedMoney(rs.getInt(3));
+				
+				LinkedList<Transaction> transactions = new LinkedList<Transaction>();
+				
+				PreparedStatement ps1 = connection.prepareStatement(SELECT_TRANSACTIONS_SQL);
+				
+				ps1.setInt(1, item.getId());
+				ResultSet rs1 = ps1.executeQuery();
+				
+				while(rs1.next()){
+					Date ts1 = rs1.getDate(3);
+					Instant instant1 = Instant.ofEpochMilli(ts1.getTime());
+					LocalDateTime res1 = LocalDateTime.ofInstant(instant1, ZoneId.systemDefault());
+					
+					Transaction transaction = new Transaction(rs1.getInt(2),rs1.getString(4));
+					transaction.setId(rs1.getInt(1));
+					transaction.setTimeOfTransactionString(rs1.getDate(3).toString());
+					transaction.setTimeOfTransaction();
+					
+					transactions.add(transaction);
+					//item.addTransaction(transaction);
+				
+				}
+				
+				
+				itemsWithTransactions.put(item, transactions);
+			}
+			
+			return itemsWithTransactions;
+
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+			throw new UserException("Saving item cannot be added right now, please try again later!", e);
+		}
+	}
+	
+	public Map<BudgetItem, LinkedList<Transaction>> getTransactionsForLast7DaysByUserID(int id) throws UserException, BudgetItemException, TransactionException{
 		Connection connection = DBConnection.getInstance().getConnection();
 
 		Map<BudgetItem, LinkedList<Transaction>> itemsWithTransactions = new HashMap<BudgetItem, LinkedList<Transaction>>();
