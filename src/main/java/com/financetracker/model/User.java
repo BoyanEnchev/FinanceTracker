@@ -34,16 +34,21 @@ public class User {
 	@NotEmpty
 	@Length(min=6, max=50)
 	private String password;
+	@NotNull
+	@NotEmpty
+	@Length(min=6, max=50)
+	private String confirm;
 	private int id;
 	private List<BudgetItem> budgetItems = new ArrayList<BudgetItem>();
 	private Set<SavingItem> savingItems = new HashSet<SavingItem>();
 	
-	public User(String firstName, String lastName, String email, String password) throws UserException {
+	public User(String firstName, String lastName, String email, String password, String confirm) throws UserException {
 		
 		this.setFirstName(firstName);
 		this.setLastName(lastName);
 		this.setEmail(email);
-		this.setPassword(password);	
+		this.setPassword(password);
+		this.setConfirm(confirm);
 	}
 
 	public User() {
@@ -147,5 +152,23 @@ public class User {
 			throw new UserException("Invalid saving item! ");
 		}
 	}
+
+	public String getConfirm() {
+		return confirm;
+	}
+
+	public void setConfirm(String confirm) {
+	
+		this.confirm = confirm;
+	}
+
+	@Override
+	public String toString() {
+		return "User [firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", password=" + password
+				+ ", confirm=" + confirm + ", id=" + id + ", budgetItems=" + budgetItems + ", savingItems="
+				+ savingItems + "]";
+	}
+	
+	
 	
 }

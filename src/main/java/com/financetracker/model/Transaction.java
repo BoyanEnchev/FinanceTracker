@@ -1,5 +1,6 @@
 package com.financetracker.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import com.financetracker.exception.TransactionException;
@@ -7,17 +8,30 @@ import com.financetracker.exception.TransactionException;
 
 public class Transaction {
 	
+	private static final int YEAR_POS = 0;
+	private static final int MONTH_POS = 1;
+	private static final int DAY_POS = 2;
+	
 	private int amount;
-	private LocalDateTime timeOfTransaction;
+	private LocalDate timeOfTransaction;
 	private String description;
 	private int id;
+	private int item_id;
+	private String timeOfTransactionString;
 	
-	public Transaction(int amount, LocalDateTime timeOfTransaction, String description) throws TransactionException {
-	
+	public Transaction(int amount, String timeOfTransactionString, String description) throws TransactionException {
+		this.timeOfTransactionString = timeOfTransactionString;
 		this.setAmount(amount);
-		this.setTimeOfTransaction(timeOfTransaction);
 		this.setDescription(description);
+	}
+
+	public Transaction() throws TransactionException {
 		
+	}
+
+	public Transaction(int amount, String description) throws TransactionException {
+		this.setAmount(amount);
+		this.setDescription(description);
 	}
 
 	public int getAmount() {
@@ -31,16 +45,22 @@ public class Transaction {
 		}
 	}
 
-	public LocalDateTime getTimeOfTransaction() {
+	public LocalDate getTimeOfTransaction() {
 		return timeOfTransaction;
 	}
 
-	public void setTimeOfTransaction(LocalDateTime timeOfTransaction) throws TransactionException {
-		if(timeOfTransaction != null){
-			this.timeOfTransaction = timeOfTransaction;
+	public void setTimeOfTransaction() throws TransactionException {
+		if(timeOfTransactionString != null){
+			String[] dateArr = this.timeOfTransactionString.split("-");
+			int year = Integer.parseInt(dateArr[YEAR_POS]);
+			int month = Integer.parseInt(dateArr[MONTH_POS]);
+			int dayOfMonth = Integer.parseInt(dateArr[DAY_POS]);
+			
+			this.timeOfTransaction = LocalDate.of(year, month, dayOfMonth);
 		}else{
 			throw new TransactionException("Invalid time of transaction! ");
 		}
+		
 	}
 
 	public int getId() {
@@ -61,6 +81,28 @@ public class Transaction {
 		}else{
 			throw new TransactionException("Invalid description! ");
 		}
+	}
+
+	@Override
+	public String toString() {
+		return "Transaction [amount=" + amount + ", timeOfTransaction=" + timeOfTransaction + ", description="
+				+ description + ", id=" + id + ", item_id=" + item_id + "]";
+	}
+
+	public int getItem_id() {
+		return this.item_id;
+	}
+
+	public void setItem_id(int item_id) {
+		this.item_id = item_id;
+	}
+
+	public String getTimeOfTransactionString() {
+		return timeOfTransactionString;
+	}
+
+	public void setTimeOfTransactionString(String timeOfTransactionString) {
+		this.timeOfTransactionString = timeOfTransactionString;
 	}
 	
 	

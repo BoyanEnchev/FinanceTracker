@@ -1,13 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %> 
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
- <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+<script type="text/javascript"
+	src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.min.js"></script>
+
+<script type="text/javascript"
+	src="<c:url value="js/jquery-3.1.1.min.js"/>"></script> 
 
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -27,8 +31,8 @@
 <link
 	href='http://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic'
 	rel='stylesheet' type='text/css'>
-<link rel="stylesheet" href="../font-awesome/css/font-awesome.min.css"
-	type="text/css">
+<link rel="stylesheet" href="font-awesome/font-awesome.min.css">
+
 
 <!-- Plugin CSS -->
 <link rel="stylesheet" href="css/animate.min.css" type="text/css">
@@ -36,10 +40,44 @@
 <!-- Custom CSS -->
 <link rel="stylesheet" href="css/creative.css" type="text/css">
 
-
+<!-- 
+<style type="text/css">
+#password_info {
+	    position:absolute;
+	    bottom:-75px;
+	    bottom: -115px\9; /* IE Specific */
+	    right:55px;
+	    width:250px;
+	    padding:15px;
+	    background:#fefefe;
+	    font-size:.875em;
+	    border-radius:5px;
+	    box-shadow:0 1px 3px #ccc;
+	    border:1px solid #ddd;
+}
+#password_info h4 {
+	    margin:0 0 10px 0;
+	    padding:0;
+	    font-weight:normal;
+}
+#password_info::before {
+	    content: "\25B2";
+	    position:absolute;
+	    top:-12px;
+	    left:45%;
+	    font-size:14px;
+	    line-height:14px;
+	    color:#ddd;
+	    text-shadow:none;
+	    display:block;
+}
+</style>
+-->
 </head>
 
+
 <body id="page-top">
+
 
 	<nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
 		<div class="container-fluid">
@@ -51,7 +89,7 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand page-scroll" href="index.html">projecttracker</a>
+				<a class="navbar-brand page-scroll" href="index.html">financetracker</a>
 			</div>
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
@@ -71,7 +109,7 @@
 	<header>
 		<div class="header-content">
 			<div class="header-content-inner">
-				<h1>Your Project Tracker</h1>
+				<h1>Your Finance Tracker</h1>
 				<hr>
 				<a href="#about" class="btn btn-primary btn-xl page-scroll">Start!</a>
 			</div>
@@ -102,15 +140,17 @@
 		</div>
 		<div class="container">
 
-			<form id="login-form" action="#" method="post" role="form"
-				style="display: block;">
+			<form:form id="login-form" action="login" commandName="registerForm"
+				method="post" role="form" style="display: block;">
 				<div class="form-group">
-					<input type="text" name="username" id="usernameLogin" tabindex="1"
-						class="form-control" placeholder="Username" value="" size=50>
+					<input type="text" name="email" path="email" id="usernameLogin"
+						tabindex="1" class="form-control" placeholder="Email" value=""
+						size=50>
 				</div>
 				<div class="form-group">
-					<input type="password" name="password" id="passwordLogin"
-						tabindex="2" class="form-control" placeholder="Password" size=50>
+					<input type="password" name="password" path="password"
+						id="passwordLogin" tabindex="2" class="form-control"
+						placeholder="Password" size=50>
 				</div>
 
 				<div class="form-group">
@@ -131,7 +171,7 @@
 						</div>
 					</div>
 				</div>
-			</form>
+			</form:form>
 		</div>
 	</section>
 
@@ -146,91 +186,173 @@
 		</div>
 	</aside>
 
+
 	<section id="contact">
 		<div class="container">
 			<div class="main-login main-center">
-				<form:form class="form-horizontal" commandName="registerForm" action="register">
+				<form:form cssClass="form-horizontal registrationForm"
+					id="registrationForm" commandName="user" action="./register">
 
 					<div class="form-group">
-						<form:label for="firstName" path="firstName" class="cols-sm-2 control-label">Your
+						<form:label for="firstName" path="firstName"
+							class="cols-sm-2 control-label">Your
 							First Name</form:label>
-						<div class="cols-sm-10">
-							<div class="input-group">
-								<span class="input-group-addon"><i class="fa fa-user fa"
-									aria-hidden="true"></i></span> 
-									<form:input path="firstName" type="text" class="form-control"
-									name="firstName" id="firstName" placeholder="Enter your Name"
-									required="required" />
-							</div>
-						</div>
+						<form:input id="firstName" path="firstName" name="firstName"
+							type="text" cssClass="form-control" />
+						<form:errors path="firstName" />
 					</div>
 
 					<div class="form-group">
-						<form:label for="lastName" path="lastName" class="cols-sm-2 control-label">Your
+						<form:label for="LastName" path="LastName"
+							class="cols-sm-2 control-label">Your
 							Last Name</form:label>
-						<div class="cols-sm-10">
-							<div class="input-group">
-								<span class="input-group-addon"><i class="fa fa-user fa"
-									aria-hidden="true"></i></span> <form:input path="lastName" type="text" class="form-control"
-									name="lastName" id="lastName" placeholder="Enter your Name"
-									required="required" />
-							</div>
-						</div>
+						<form:input id="LastName" path="LastName" name="LastName"
+							type="text" cssClass="form-control" />
+						<form:errors path="lastName" />
 					</div>
 
 					<div class="form-group">
-						<form:label for="email" path="email" class="cols-sm-2 control-label">Your
+						<form:label for="email" path="email"
+							class="cols-sm-2 control-label">Your
 							Email</form:label>
-						<div class="cols-sm-10">
-							<div class="input-group">
-								<span class="input-group-addon"><i
-									class="fa fa-envelope fa" aria-hidden="true"></i></span> <form:input path="email"
-									type="text" class="form-control" name="email" id="email"
-									placeholder="Enter your Email" required="required" />
-							</div>
-						</div>
+						<form:input id="email" path="email" name="email" type="text"
+							cssClass="form-control" />
+						<form:errors path="email" />
 					</div>
 
 					<div class="form-group">
-						<form:label for="password" path="password" class="cols-sm-2 control-label">Password</form:label>
-						<div class="cols-sm-10">
-							<div class="input-group">
-								<span class="input-group-addon"><i
-									class="fa fa-lock fa-lg" aria-hidden="true"></i></span> <form:input path="password"
-									type="password" class="form-control" name="password"
-									id="password" placeholder="Enter your Password"
-									required="required" />
-							</div>
-						</div>
-					</div>
-
-					<div class="form-group">
-						<form:label for="confirm" path="confirm" class="cols-sm-2 control-label">Confirm
+						<form:label for="password" path="password"
+							class="cols-sm-2 control-label">Your
 							Password</form:label>
-						<div class="cols-sm-10">
-							<div class="input-group">
-								<span class="input-group-addon"><i
-									class="fa fa-lock fa-lg" aria-hidden="true"></i></span> 
-									<form:input path="confirm"
-									type="password" class="form-control" name="confirm"
-									id="confirm" placeholder="Confirm your Password"
-									required="required" />
-							</div>
-						</div>
+						<form:input id="password" path="password" name="password"
+							type="password" cssClass="form-control" />
+						<form:errors path="password" />
 					</div>
+
+
+
+					<div class="form-group">
+						<form:label for="confirm" path="confirm"
+							class="cols-sm-2 control-label">Confirm
+							Password</form:label>
+						<form:input id="confirm" path="confirm" name="confirm"
+							type="password" cssClass="form-control" />
+						<form:errors path="confirm" />
+					</div>
+
+
 
 					<div class="form-group ">
 						<form:button type="submit"
-							class="btn btn-primary btn-lg btn-block login-button" value="register">Register</form:button>
+							class="btn btn-primary btn-lg btn-block login-button"
+							value="register">Register</form:button>
 					</div>
 					<div class="login-register">
 						<a href="#services">Login</a>
 					</div>
 				</form:form>
+				
+				<script type="text/javascript">
+					$(document).ready(function() {
+						$(".registrationForm").validate({
+
+							rules : {
+								firstName : {
+									required : true,
+									minlength : 2
+								},
+								lastName : {
+									required : true,
+									minlength : 2
+								},
+								email : {
+									required : true,
+									email : true
+								},
+								password : {
+									required : true,
+									minlength : 6,
+									maxlength : 50
+								},
+								confirm : {
+									required : true,
+									minlength : 6,
+									maxlength : 50,
+									equalTo : "#password"
+								}
+							}
+						});
+					});
+				</script>
 			</div>
 		</div>
 	</section>
-	
+
+
+
+
+
+	<!--  
+	<script type="text/javascript">
+		$(document)
+				.ready(
+						function() {
+							$('#registrationForm')
+									.validate(
+											{
+												rules : {
+													"firstName" : {
+														required : true,
+														minlength : 2
+													},
+													"lastName" : {
+														required : true,
+														minlength : 2
+													},
+													"email" : {
+														required : true,
+														email : true
+													},
+													"password" : {
+														required : true,
+														minlength : 6
+													},
+													"confirm" : {
+														required : true,
+														minlength : 6
+													}
+												},
+												messages : {
+													"firstName" : {
+														required : "this field is required",
+														minlength : "this field must contain at least {0} characters"
+													},
+													"lastName" : {
+														required : "this field is required",
+														minlength : "this field must contain at least {0} characters"
+													},
+													"email" : {
+														required : "this field is required",
+														email : "this field must be a valid email"
+													},
+													"password" : {
+														required : "this field is required",
+														minlength : "this field must contain at least {0} characters"
+													},
+													"confirm" : {
+														required : "this field is required",
+														minlength : "this field must contain at least {0} characters"
+													}
+												},
+												submitHandler : function(form) { // for demo
+													alert('valid form');
+													return false;
+												}
+											});
+
+						}); -->
+	</script>
+
 	<!-- jQuery -->
 	<script src="js/jquery.js"></script>
 
@@ -238,13 +360,12 @@
 	<script src="js/bootstrap.min.js"></script>
 
 	<!-- Plugin JavaScript -->
-	<script src="../js/jquery.easing.min.js"></script>
-	<script src="../js/jquery.fittext.js"></script>
-	<script src="../js/wow.min.js"></script>
+	<script src="js/jquery.easing.min.js"></script>
+	<script src="js/jquery.fittext.js"></script>
+	<script src="js/wow.min.js"></script>
 
 	<!-- Custom Theme JavaScript -->
-	<script src="../js/creative.js"></script>
-
+	<script src="js/creative.js"></script>
 </body>
 
 </html>
