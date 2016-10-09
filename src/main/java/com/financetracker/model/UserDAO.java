@@ -11,13 +11,13 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.TreeSet;
 
 import com.financetracker.controller.DBConnection;
 import com.financetracker.exception.BudgetItemException;
+import com.financetracker.exception.SavingItemException;
 import com.financetracker.exception.TransactionException;
 import com.financetracker.exception.UserException;
 
@@ -39,6 +39,7 @@ public class UserDAO {
 			+ "JOIN budget_items b ON (t.item_id = b.item_id) JOIN users u ON (b.user_id = u.user_id)) AS X "
 			+ "WHERE time_of_transaction > DATE_SUB(CURDATE(), INTERVAL 7 DAY) AND time_of_transaction <= CURDATE() AND user_id = ? "
 			+ "ORDER BY time_of_transaction;";
+	private static final String GET_SAVING_ITEMS_BY_USER_ID_SQL = "SELECT * FROM saving_items WHERE user_id = ?";
 
 
 	public Integer registerUser(User user) throws UserException {
@@ -190,18 +191,25 @@ public class UserDAO {
 		}		
 	}
 	
-	public void addSavingItem(User user, SavingItem item) throws UserException{
+	public Integer addSavingItem(User user, SavingItem item) throws UserException{
 		Connection connection = DBConnection.getInstance().getConnection();
 
 		try {
-			PreparedStatement ps = connection.prepareStatement(INSERT_SAVING_ITEM_SQL);
+			PreparedStatement ps = connection.prepareStatement(INSERT_SAVING_ITEM_SQL, Statement.RETURN_GENERATED_KEYS);
 			ps.setInt(1, item.getPrice());
 			ps.setString(2, item.getName());
 			ps.setString(3, item.getDescription());
 			ps.setInt(4, user.getId());
 			
 			ps.executeUpdate();
-
+			
+			ResultSet rs = ps.getGeneratedKeys();
+			
+			rs.next();
+			
+			Integer sItemId = rs.getInt(1);
+			
+			return sItemId;
 
 		} catch (SQLException e) {
 			throw new UserException("Saving item cannot be added right now, please try again later!", e);
@@ -261,7 +269,7 @@ public class UserDAO {
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
-			throw new UserException("Saving item cannot be added right now, please try again later!", e);
+			throw new UserException("Budget items cannon be listed right now, please try again later!", e);
 		}
 	}
 	
@@ -302,7 +310,45 @@ public class UserDAO {
 			return transactions;
 
 		} catch (SQLException e) {
-			throw new UserException("User cannot be registered now, please try again later.", e);
+			throw new UserException("Transactions cannot be listed right now, please try again later.", e);
+		}
+	}
+	
+	public TreeSet<SavingItem> getSavingItemsByUserId(int userId) throws SavingItemException, UserException {
+		Connection connection = DBConnection.getInstance().getConnection();
+
+		try {
+			PreparedStatement ps = connection.prepareStatement(GET_SAVING_ITEMS_BY_USER_ID_SQL);
+			ps.setInt(1, userId);
+
+            ResultSet rs = ps.executeQuery();
+			
+            TreeSet<SavingItem> savingItems = new TreeSet<SavingItem>(new Comparator<SavingItem>() {
+				@Override
+				public int compare(SavingItem o1, SavingItem o2) {
+					
+					if(o1.getName().equals(o2.getName())){
+						return o1.getDescription().compareTo(o2.getDescription());
+					}
+					return o1.getName().compareTo(o2.getName());
+				}
+			});
+            	
+			while(rs.next()){
+				
+				int price = rs.getInt(2);
+				String name = rs.getString(3);
+				String description = rs.getString(4);
+				
+				SavingItem sI = new SavingItem(name, description, price);
+				
+				savingItems.add(sI);
+			}
+			
+			return savingItems;
+
+		} catch (SQLException e) {
+			throw new UserException("Saving items cannot be listed right now, please try again later.", e);
 		}
 	}
 }

@@ -145,6 +145,7 @@
 			<li class="active"><a href="budget"> Budget</a></li>
 			<li><a href="charts"> Charts</a></li>
 			<li><a href="transactions"> Transactions</a></li>
+			<li><a href="savingItems"> Saving Items</a></li>
 			<li><a href="index"> Login Page</a></li>
 		</ul>
 	</div>
@@ -437,10 +438,6 @@
 		</div>
 	</div>
 	</div>
-
-
-
-
 
 	<script type="text/javascript" src="js/jquery.js"></script>
 	<script type="text/javascript" src="js/jquery-ui.js"></script>

@@ -13,77 +13,6 @@
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/styles.css" rel="stylesheet">
 
-<style>
-.FAQ {
-	vertical-align: top;
-	height: auto !important;
-}
-
-.list {
-	display: none;
-	height: auto;
-	margin: 0;
-	float: left;
-}
-
-.show {
-	display: none;
-}
-
-.hide:target+.show {
-	display: inline;
-}
-
-.hide:target {
-	display: none;
-}
-
-.hide:target ~ .list {
-	display: inline;
-}
-
-/*style the (+) and (-) */
-.hide, .show {
-	width: 30px;
-	height: 30px;
-	border-radius: 30px;
-	font-size: 20px;
-	color: #fff;
-	text-shadow: 0 1px 0 #666;
-	text-align: center;
-	text-decoration: none;
-	box-shadow: 1px 1px 2px #000;
-	background: #cccbbb;
-	opacity: .95;
-	margin-right: 0;
-	float: left;
-	margin-bottom: 25px;
-}
-
-.hide:hover, .show:hover {
-	color: #eee;
-	text-shadow: 0 0 1px #666;
-	text-decoration: none;
-	box-shadow: 0 0 4px #222 inset;
-	opacity: 1;
-	margin-bottom: 25px;
-}
-
-.list p {
-	height: auto;
-	margin: 0;
-}
-
-.question {
-	float: left;
-	height: auto;
-	width: 90%;
-	line-height: 20px;
-	padding-left: 20px;
-	margin-bottom: 25px;
-	font-style: italic;
-}
-</style>
 
 </head>
 
@@ -130,6 +59,7 @@
 			<li><a href="budget"> Budget</a></li>
 			<li><a href="charts"> Charts</a></li>
 			<li class="active"><a href="transactions"> Transactions</a></li>
+			<li><a href="savingItems"> Saving Items</a></li>
 			<li><a href="index"> Login Page</a></li>
 		</ul>
 	</div>
@@ -141,11 +71,11 @@
 					<div class="panel-heading">Transactions - Last 7 days</div>
 					<div class="panel-body">
 						<form:form name="frm" method="post" action="">
-							<input type="hidden" name="hdnbt" /> <input type="button"
-								name="bt" value="gi"
+							<input type="hidden" name="hdnbt" />
+							<input type="button" name="bt" value="gi"
 								onclick="{document.frm.hdnbt.value=this.value;document.frm.submit();}" />
 						</form:form>
-						
+
 						<table data-toggle="table" data-url="tables/data1.json"
 							data-show-refresh="true" data-show-toggle="true"
 							data-show-columns="true" data-search="true"

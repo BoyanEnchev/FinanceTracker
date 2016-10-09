@@ -7,6 +7,11 @@ public class SavingItem {
 	private String name;
 	private String description;
 	private int price;
+	private int id;
+	
+	public SavingItem(){
+		
+	}
 	
 	public SavingItem(String name, String description, int price) throws SavingItemException {
 		this.setName(name);
@@ -44,6 +49,14 @@ public class SavingItem {
 		}else{
 			throw new SavingItemException("Invalid price! ");
 		}
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 	

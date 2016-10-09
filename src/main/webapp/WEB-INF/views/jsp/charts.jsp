@@ -55,6 +55,7 @@
 			<li><a href="budget"> Budget</a></li>
 			<li class="active"><a href="charts"> Charts</a></li>
 			<li><a href="transactions"> Transactions</a></li>
+			<li><a href="savingItems"> Saving Items</a></li>
 			<li><a href="index"> Login Page</a></li>
 		</ul>
 	</div>
