@@ -53,7 +53,16 @@ public class BudgetController {
 		itemsTransactionsMap.forEach((budgetItem, list) -> itemsNamesTransValues.put(budgetItem.getCategory(), list));
 
 		//itemsNamesTransValues.forEach((k, v) -> System.out.println(v));
-
+		int actual = 0;
+		int budgeted = 0;
+		
+		for (BudgetItem budgetItem : budgetItems) {
+			budgeted += budgetItem.getPlannedMoney();
+			actual += budgetItem.getPayedMoney();
+		}
+		
+		model.addAttribute("actual", actual);
+		model.addAttribute("budgeted", budgeted);
 		model.addAttribute("budgetItems", budgetItems);
 		model.addAttribute("incomeCategories", incomeCategories);
 		model.addAttribute("expenseCategories", expenseCategories);
@@ -70,10 +79,8 @@ public class BudgetController {
 
 		if (result.hasErrors()) {
 			BudgetItem item1 = new BudgetItem();
-			// BudgetItem item1 = new BudgetItem();
 			Transaction transaction = new Transaction();
 			model.addAttribute("item", item1);
-			// model.addAttribute("item1", item1);
 			model.addAttribute("transaction", transaction);
 
 			int userID = ((User) session.getAttribute("user")).getId();
@@ -84,6 +91,17 @@ public class BudgetController {
 
 			model.addAttribute("budgetItems", budgetItems);
 
+			int actual = 0;
+			int budgeted = 0;
+			
+			for (BudgetItem budgetItem : budgetItems) {
+				actual += budgetItem.getPlannedMoney();
+				budgeted += budgetItem.getPayedMoney();
+			}
+			
+			model.addAttribute("actual", actual);
+			model.addAttribute("budgeted", budgeted);
+			
 			return "budget";
 		} else {
 

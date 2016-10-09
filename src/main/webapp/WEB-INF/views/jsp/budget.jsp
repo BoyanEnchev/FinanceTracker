@@ -29,6 +29,7 @@
 <![endif]-->
 
 <style>
+
 .FAQ {
 	vertical-align: top;
 	height: auto !important;
@@ -160,154 +161,176 @@
 						data-show-columns="true" data-search="true"
 						data-select-item-name="toolbar1" data-pagination="true"
 						data-sort-name="name" data-sort-order="desc">
-						<div class="budgeted-block">
-							<div class="block-label">Budgeted</div>
-							<div id="budgeted-amount" class="budgeted-value currency">200.00</div>
-						</div>
-						<div class="budgeted-block">
-							<div class="block-label">Actual</div>
-							<div id="budgeted-amount" class="budgeted-value currency">210.00</div>
-						</div>
-						<div class="budgeted-block">
-							<div class="block-label">Savings</div>
-							<div id="budgeted-amount" class="budgeted-value currency">200.00</div>
-						</div>
-
-						<section id="contact">
-							<div class="container">
-								<div class="main-login main-center">
-									<div>
-										<button type="button" class="btn btn-primary"
-											data-toggle="modal" data-target="#myKodal">+Add
-											Income Item</button>
-									</div>
-									<form:form class="form-horizontal" commandName="item"
-										action="./budget">
-										<div id="myKodal" class="modal fade" role="dialog">
-											<div class="modal-dialog">
-												<div class="modal-content">
-													<div class="modal-header">
-														<button type="button" class="close" data-dismiss="modal">&times;</button>
-														<h3>Add New Income Item</h3>
-														<div class="form-group">
-															<form:label for="category" path="category"
-																class="cols-sm-2 control-label">Category</form:label>
-															<div class="cols-sm-10">
-																<div class="input-group">
-																	<span class="input-group-addon"><i
-																		class="fa fa-user fa" aria-hidden="true"></i></span>
-																	<form:select path="category" type="text"
-																		class="form-control" name="category" id="category"
-																		placeholder="Enter Category" required="required">
-
-																		<c:forEach var="category" items="${incomeCategories}">
-																			<form:option value="${category }"></form:option>
-																		</c:forEach>
-
-																	</form:select>
-
-																</div>
-															</div>
-														</div>
-
-														<div class="form-group">
-															<form:label for="plannedMoney" path="plannedMoney"
-																class="cols-sm-2 control-label">Amount</form:label>
-															<div class="cols-sm-10">
-																<div class="input-group">
-																	<span class="input-group-addon"><i
-																		class="fa fa-user fa" aria-hidden="true"></i></span>
-																	<form:input path="plannedMoney" type="text"
-																		class="form-control" name="plannedMoney"
-																		id="plannedMoney" placeholder="Enter Amount"
-																		required="required" />
-																</div>
-															</div>
-														</div>
-														<div class="form-group ">
-															<form:button type="submit"
-																class="btn btn-primary btn-lg btn-block login-button"
-																value="addBudgetItem">+Add</form:button>
-														</div>
-													</div>
-												</div>
+						<div class="row">
+							<div class="col-xs-12 col-md-6 col-lg-3">
+								<div class="panel panel-blue panel-widget ">
+									<div class="row no-padding">
+										<div class="col-sm-3 col-lg-5 widget-left"></div>
+										<div class="col-sm-9 col-lg-7 widget-right">
+											<div class="large">
+												<c:out value="${budgeted }" />
 											</div>
+											<div class="text-muted">Budgeted</div>
 										</div>
-									</form:form>
+									</div>
 								</div>
 							</div>
-						</section>
-
-
-
-
-
-						<section id="contact">
-							<div class="container">
-								<div class="main-login main-center">
-									<div>
-										<button type="button" class="btn btn-primary"
-											data-toggle="modal" data-target="#myGodal">+Add
-											Expense Item</button>
-									</div>
-
-									<form:form class="form-horizontal" commandName="item"
-										action="./budget">
-										<div id="myGodal" class="modal fade" role="dialog">
-											<div class="modal-dialog">
-												<div class="modal-content">
-													<div class="modal-header">
-														<button type="button" class="close" data-dismiss="modal">&times;</button>
-														<h3>Add New Expense Item</h3>
-														<div class="form-group">
-															<form:label for="category" path="category"
-																class="cols-sm-2 control-label">Category</form:label>
-															<div class="cols-sm-10">
-																<div class="input-group">
-																	<span class="input-group-addon"><i
-																		class="fa fa-user fa" aria-hidden="true"></i></span>
-																	<form:select path="category" type="text"
-																		class="form-control" name="category" id="category"
-																		placeholder="Enter Category" required="required">
-
-																		<c:forEach var="category" items="${expenseCategories}">
-																			<form:option value="${category }"></form:option>
-																		</c:forEach>
-
-																	</form:select>
-
-																</div>
-															</div>
-														</div>
-
-														<div class="form-group">
-															<form:label for="plannedMoney" path="plannedMoney"
-																class="cols-sm-2 control-label">Amount</form:label>
-															<div class="cols-sm-10">
-																<div class="input-group">
-																	<span class="input-group-addon"><i
-																		class="fa fa-user fa" aria-hidden="true"></i></span>
-																	<form:input path="plannedMoney" type="text"
-																		class="form-control" name="plannedMoney"
-																		id="plannedMoney" placeholder="Enter Amount"
-																		required="required" />
-																</div>
-															</div>
-														</div>
-														<div class="form-group ">
-															<form:button type="submit"
-																class="btn btn-primary btn-lg btn-block login-button"
-																value="addBudgetItem">+Add</form:button>
-														</div>
-													</div>
-												</div>
+							<div class="col-xs-12 col-md-6 col-lg-3">
+								<div class="panel panel-blue panel-widget ">
+									<div class="row no-padding">
+										<div class="col-sm-3 col-lg-5 widget-left"></div>
+										<div class="col-sm-9 col-lg-7 widget-right">
+											<div class="large">
+												<c:out value="${actual }" />
 											</div>
+											<div class="text-muted">Actual</div>
 										</div>
-									</form:form>
+									</div>
 								</div>
 							</div>
-						</section>
+						</div>
 
+						
+										<section id="contact">
+											<div class="container">
+												<div class="main-login main-center">
+													<div>
+														<button type="button" class="btn btn-primary"
+															data-toggle="modal" data-target="#myKodal">+Add
+															Income Item</button>
+													</div>
+													<form:form class="form-horizontal" commandName="item"
+														action="./budget">
+														<div id="myKodal" class="modal fade" role="dialog">
+															<div class="modal-dialog">
+																<div class="modal-content">
+																	<div class="modal-header">
+																		<button type="button" class="close"
+																			data-dismiss="modal">&times;</button>
+																		<h3>Add New Income Item</h3>
+																		<div class="form-group">
+																			<form:label for="category" path="category"
+																				class="cols-sm-2 control-label">Category</form:label>
+																			<div class="cols-sm-10">
+																				<div class="input-group">
+																					<span class="input-group-addon"><i
+																						class="fa fa-user fa" aria-hidden="true"></i></span>
+																					<form:select path="category" type="text"
+																						class="form-control" name="category" id="category"
+																						placeholder="Enter Category" required="required">
+
+																						<c:forEach var="category"
+																							items="${incomeCategories}">
+																							<form:option value="${category }"></form:option>
+																						</c:forEach>
+
+																					</form:select>
+
+																				</div>
+																			</div>
+																		</div>
+
+																		<div class="form-group">
+																			<form:label for="plannedMoney" path="plannedMoney"
+																				class="cols-sm-2 control-label">Amount</form:label>
+																			<div class="cols-sm-10">
+																				<div class="input-group">
+																					<span class="input-group-addon"><i
+																						class="fa fa-user fa" aria-hidden="true"></i></span>
+																					<form:input path="plannedMoney" type="text"
+																						class="form-control" name="plannedMoney"
+																						id="plannedMoney" placeholder="Enter Amount"
+																						required="required" />
+																				</div>
+																			</div>
+																		</div>
+																		<div class="form-group ">
+																			<form:button type="submit"
+																				class="btn btn-primary btn-lg btn-block login-button"
+																				value="addBudgetItem">+Add</form:button>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</form:form>
+												</div>
+											</div>
+										</section>
+
+
+
+
+
+										<section id="contact">
+											<div class="container">
+												<div class="main-login main-center">
+													<div>
+														<button type="button" class="btn btn-primary"
+															data-toggle="modal" data-target="#myGodal">+Add
+															Expense Item</button>
+													</div>
+
+													<form:form class="form-horizontal" commandName="item"
+														action="./budget">
+														<div id="myGodal" class="modal fade" role="dialog">
+															<div class="modal-dialog">
+																<div class="modal-content">
+																	<div class="modal-header">
+																		<button type="button" class="close"
+																			data-dismiss="modal">&times;</button>
+																		<h3>Add New Expense Item</h3>
+																		<div class="form-group">
+																			<form:label for="category" path="category"
+																				class="cols-sm-2 control-label">Category</form:label>
+																			<div class="cols-sm-10">
+																				<div class="input-group">
+																					<span class="input-group-addon"><i
+																						class="fa fa-user fa" aria-hidden="true"></i></span>
+																					<form:select path="category" type="text"
+																						class="form-control" name="category" id="category"
+																						placeholder="Enter Category" required="required">
+
+																						<c:forEach var="category"
+																							items="${expenseCategories}">
+																							<form:option value="${category }"></form:option>
+																						</c:forEach>
+
+																					</form:select>
+
+																				</div>
+																			</div>
+																		</div>
+
+																		<div class="form-group">
+																			<form:label for="plannedMoney" path="plannedMoney"
+																				class="cols-sm-2 control-label">Amount</form:label>
+																			<div class="cols-sm-10">
+																				<div class="input-group">
+																					<span class="input-group-addon"><i
+																						class="fa fa-user fa" aria-hidden="true"></i></span>
+																					<form:input path="plannedMoney" type="text"
+																						class="form-control" name="plannedMoney"
+																						id="plannedMoney" placeholder="Enter Amount"
+																						required="required" />
+																				</div>
+																			</div>
+																		</div>
+																		<div class="form-group ">
+																			<form:button type="submit"
+																				class="btn btn-primary btn-lg btn-block login-button"
+																				value="addBudgetItem">+Add</form:button>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</form:form>
+												</div>
+											</div>
+										</section>
+									</div>
+									
 
 						<tr>
 							<th data-field="category" data-sortable="true">Category name</th>
