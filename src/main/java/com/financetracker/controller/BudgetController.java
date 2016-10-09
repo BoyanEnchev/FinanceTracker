@@ -52,7 +52,7 @@ public class BudgetController {
 		Map<String, LinkedList<Transaction>> itemsNamesTransValues = new HashMap<>();
 		itemsTransactionsMap.forEach((budgetItem, list) -> itemsNamesTransValues.put(budgetItem.getCategory(), list));
 
-		itemsNamesTransValues.forEach((k, v) -> System.out.println(v));
+		//itemsNamesTransValues.forEach((k, v) -> System.out.println(v));
 
 		model.addAttribute("budgetItems", budgetItems);
 		model.addAttribute("incomeCategories", incomeCategories);

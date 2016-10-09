@@ -138,140 +138,39 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="panel panel-default">
-					<div class="panel-heading">Transactions</div>
+					<div class="panel-heading">Transactions - Last 7 days</div>
 					<div class="panel-body">
+						<form:form name="frm" method="post" action="">
+							<input type="hidden" name="hdnbt" /> <input type="button"
+								name="bt" value="gi"
+								onclick="{document.frm.hdnbt.value=this.value;document.frm.submit();}" />
+						</form:form>
+						
 						<table data-toggle="table" data-url="tables/data1.json"
 							data-show-refresh="true" data-show-toggle="true"
 							data-show-columns="true" data-search="true"
 							data-select-item-name="toolbar1" data-pagination="true"
 							data-sort-name="name" data-sort-order="desc">
 
-
-
-
-							
-
 							<tr>
-								<th data-field="category" data-sortable="true">Category
-									name</th>
-								<th data-field="plannedMoney" data-sortable="true">Budgeted</th>
-								<th data-field="payedMoney" data-sortable="true">Actual</th>
-								<th data-field="leftMoney" data-sortable="true">What' left</th>
+								<th data-field="timeOfTransactionToString" data-sortable="true">Time
+									of transaction</th>
+								<th data-field="category" data-sortable="true">Category</th>
+								<th data-field="description" data-sortable="true">Description</th>
+								<th data-field="amount" data-sortable="true">Amount</th>
 							</tr>
 							<section id="contact">
 								<div class="container">
 									<div class="main-login main-center">
-										<c:forEach var="item" items="${budgetItems}">
-											<c:set var="itCat" value="${item.category}" />
+										<c:forEach var="transaction" items="${transactions}">
 											<tr>
-												<td><details>
-														<summary>
-															<c:out value="${item.category}" />
-														</summary>
-														<table style="width: 100%">
-															<tr>
-																<th>Description</th>
-																<th>Date</th>
-																<th>Amount</th>
-															</tr>
-
-															<c:forEach var="transaction"
-																items="${itemsNamesTransValues[itCat]}">
-																<tr>
-																	<td><c:out value="${transaction.description}" /></td>
-																	<td><c:out
-																			value="${transaction.timeOfTransactionString}" /></td>
-																	<td><c:out value="${transaction.amount}" /></td>
-																</tr>
-															</c:forEach>
-														</table>
-													</details></td>
-												<td><c:out value="${item.plannedMoney}" /></td>
-												<td><c:out value="${item.payedMoney}" /> &nbsp;
-													<button type="button" class="btn btn-primary"
-														data-toggle="modal" data-target="#${item.category }">+</button></td>
-												<section id="contact">
-													<div class="container">
-														<div class="main-login main-center">
-															<form:form class="form-horizontal"
-																commandName="transaction" action="./transactionForm">
-																<div id="${item.category }" class="modal fade"
-																	role="dialog">
-																	<div class="modal-dialog">
-																		<div class="modal-content">
-																			<div class="modal-header">
-																				<button type="button" class="close"
-																					data-dismiss="modal">&times;</button>
-																				<h3>Add New Transaction</h3>
-																				<div class="form-group">
-																					<form:label for="description" path="description"
-																						class="cols-sm-2 control-label">Description</form:label>
-																					<div class="cols-sm-10">
-																						<div class="input-group">
-																							<span class="input-group-addon"><i
-																								class="fa fa-user fa" aria-hidden="true"></i></span>
-																							<form:input path="description" type="text"
-																								class="form-control" name="description"
-																								id="description" placeholder="Enter Description"
-																								required="required" />
-																							<form:input path="item_id" type="text"
-																								class="form-control" name="item_id" id="item_id"
-																								placeholder="Enter Category" required="required"
-																								value="${item.id}" />
-
-																						</div>
-																					</div>
-																				</div>
-																				<div class="form-group">
-																					<form:label for="timeOfTransaction"
-																						path="timeOfTransaction"
-																						class="cols-sm-2 control-label">Date</form:label>
-																					<div class="cols-sm-10">
-
-																						<div class="input-group">
-																							<span class="input-group-addon"><i
-																								class="fa fa-user fa" aria-hidden="true"></i></span>
-																							<form:input type="date"
-																								path="timeOfTransactionString"
-																								name="timeOfTransactionString"
-																								id="timeOfTransactionString"></form:input>
-
-																						</div>
-																					</div>
-																					<div class="form-group">
-																						<form:label for="amount" path="amount"
-																							class="cols-sm-2 control-label">Amount</form:label>
-																						<div class="cols-sm-10">
-																							<div class="input-group">
-																								<span class="input-group-addon"><i
-																									class="fa fa-user fa" aria-hidden="true"></i></span>
-																								<form:input path="amount" type="text"
-																									class="form-control" name="amount" id="amount"
-																									placeholder="Enter Amount" required="required" />
-																							</div>
-																						</div>
-																					</div>
-																				</div>
-
-																				<div class="form-group ">
-																					<form:button type="submit"
-																						class="btn btn-primary btn-lg btn-block login-button"
-																						value="addBudgetItem">+Add</form:button>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</form:form>
-														</div>
-													</div>
-												</section>
 												<td><c:out
-														value="${item.plannedMoney - item.payedMoney}" />
+														value="${transaction.timeOfTransactionString}" /></td>
+												<td><c:out value="${transaction.category}" /></td>
+												<td><c:out value="${transaction.description}" /></td>
+												<td><c:out value="${transaction.amount}" /></td>
 											</tr>
 										</c:forEach>
-
-										</td>
 									</div>
 								</div>
 							</section>

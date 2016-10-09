@@ -18,6 +18,7 @@ public class Transaction {
 	private int id;
 	private int item_id;
 	private String timeOfTransactionString;
+	private String category;
 	
 	public Transaction(int amount, String timeOfTransactionString, String description) throws TransactionException {
 		this.timeOfTransactionString = timeOfTransactionString;
@@ -103,6 +104,14 @@ public class Transaction {
 
 	public void setTimeOfTransactionString(String timeOfTransactionString) {
 		this.timeOfTransactionString = timeOfTransactionString;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
 	}
 	
 	

@@ -150,294 +150,292 @@
 	</div>
 
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
-			<div class="col-lg-12">
-				<div class="panel panel-default">
-					<div class="panel-heading">Budget Items</div>
-					<div class="panel-body">
-						<table data-toggle="table" data-url="tables/data1.json"
-							data-show-refresh="true" data-show-toggle="true"
-							data-show-columns="true" data-search="true"
-							data-select-item-name="toolbar1" data-pagination="true"
-							data-sort-name="name" data-sort-order="desc">
-							<div class="budgeted-block">
-								<div class="block-label">Budgeted</div>
-								<div id="budgeted-amount" class="budgeted-value currency">200.00</div>
-							</div>
-							<div class="budgeted-block">
-								<div class="block-label">Actual</div>
-								<div id="budgeted-amount" class="budgeted-value currency">210.00</div>
-							</div>
-							<div class="budgeted-block">
-								<div class="block-label">Savings</div>
-								<div id="budgeted-amount" class="budgeted-value currency">200.00</div>
-							</div>
+		<div class="col-lg-12">
+			<div class="panel panel-default">
+				<div class="panel-heading">Budget Items</div>
+				<div class="panel-body">
+					<table data-toggle="table" data-url="tables/data1.json"
+						data-show-refresh="true" data-show-toggle="true"
+						data-show-columns="true" data-search="true"
+						data-select-item-name="toolbar1" data-pagination="true"
+						data-sort-name="name" data-sort-order="desc">
+						<div class="budgeted-block">
+							<div class="block-label">Budgeted</div>
+							<div id="budgeted-amount" class="budgeted-value currency">200.00</div>
+						</div>
+						<div class="budgeted-block">
+							<div class="block-label">Actual</div>
+							<div id="budgeted-amount" class="budgeted-value currency">210.00</div>
+						</div>
+						<div class="budgeted-block">
+							<div class="block-label">Savings</div>
+							<div id="budgeted-amount" class="budgeted-value currency">200.00</div>
+						</div>
 
-							<section id="contact">
-								<div class="container">
-									<div class="main-login main-center">
-										<div>
-											<button type="button" class="btn btn-primary"
-												data-toggle="modal" data-target="#myKodal">+Add
-												Income Item</button>
-										</div>
-										<form:form class="form-horizontal" commandName="item"
-											action="./budget">
-											<div id="myKodal" class="modal fade" role="dialog">
-												<div class="modal-dialog">
-													<div class="modal-content">
-														<div class="modal-header">
-															<button type="button" class="close" data-dismiss="modal">&times;</button>
-															<h3>Add New Income Item</h3>
-															<div class="form-group">
-																<form:label for="category" path="category"
-																	class="cols-sm-2 control-label">Category</form:label>
-																<div class="cols-sm-10">
-																	<div class="input-group">
-																		<span class="input-group-addon"><i
-																			class="fa fa-user fa" aria-hidden="true"></i></span>
-																		<form:select path="category" type="text"
-																			class="form-control" name="category" id="category"
-																			placeholder="Enter Category" required="required">
+						<section id="contact">
+							<div class="container">
+								<div class="main-login main-center">
+									<div>
+										<button type="button" class="btn btn-primary"
+											data-toggle="modal" data-target="#myKodal">+Add
+											Income Item</button>
+									</div>
+									<form:form class="form-horizontal" commandName="item"
+										action="./budget">
+										<div id="myKodal" class="modal fade" role="dialog">
+											<div class="modal-dialog">
+												<div class="modal-content">
+													<div class="modal-header">
+														<button type="button" class="close" data-dismiss="modal">&times;</button>
+														<h3>Add New Income Item</h3>
+														<div class="form-group">
+															<form:label for="category" path="category"
+																class="cols-sm-2 control-label">Category</form:label>
+															<div class="cols-sm-10">
+																<div class="input-group">
+																	<span class="input-group-addon"><i
+																		class="fa fa-user fa" aria-hidden="true"></i></span>
+																	<form:select path="category" type="text"
+																		class="form-control" name="category" id="category"
+																		placeholder="Enter Category" required="required">
 
-																			<c:forEach var="category" items="${incomeCategories}">
-																				<form:option value="${category }"></form:option>
-																			</c:forEach>
+																		<c:forEach var="category" items="${incomeCategories}">
+																			<form:option value="${category }"></form:option>
+																		</c:forEach>
 
-																		</form:select>
+																	</form:select>
 
-																	</div>
 																</div>
 															</div>
+														</div>
 
-															<div class="form-group">
-																<form:label for="plannedMoney" path="plannedMoney"
-																	class="cols-sm-2 control-label">Amount</form:label>
-																<div class="cols-sm-10">
-																	<div class="input-group">
-																		<span class="input-group-addon"><i
-																			class="fa fa-user fa" aria-hidden="true"></i></span>
-																		<form:input path="plannedMoney" type="text"
-																			class="form-control" name="plannedMoney"
-																			id="plannedMoney" placeholder="Enter Amount"
-																			required="required" />
-																	</div>
+														<div class="form-group">
+															<form:label for="plannedMoney" path="plannedMoney"
+																class="cols-sm-2 control-label">Amount</form:label>
+															<div class="cols-sm-10">
+																<div class="input-group">
+																	<span class="input-group-addon"><i
+																		class="fa fa-user fa" aria-hidden="true"></i></span>
+																	<form:input path="plannedMoney" type="text"
+																		class="form-control" name="plannedMoney"
+																		id="plannedMoney" placeholder="Enter Amount"
+																		required="required" />
 																</div>
 															</div>
-															<div class="form-group ">
-																<form:button type="submit"
-																	class="btn btn-primary btn-lg btn-block login-button"
-																	value="addBudgetItem">+Add</form:button>
-															</div>
+														</div>
+														<div class="form-group ">
+															<form:button type="submit"
+																class="btn btn-primary btn-lg btn-block login-button"
+																value="addBudgetItem">+Add</form:button>
 														</div>
 													</div>
 												</div>
 											</div>
-										</form:form>
-									</div>
-								</div>
-							</section>
-
-
-
-
-
-							<section id="contact">
-								<div class="container">
-									<div class="main-login main-center">
-										<div>
-											<button type="button" class="btn btn-primary"
-												data-toggle="modal" data-target="#myGodal">+Add
-												Expense Item</button>
 										</div>
+									</form:form>
+								</div>
+							</div>
+						</section>
 
-										<form:form class="form-horizontal" commandName="item"
-											action="./budget">
-											<div id="myGodal" class="modal fade" role="dialog">
-												<div class="modal-dialog">
-													<div class="modal-content">
-														<div class="modal-header">
-															<button type="button" class="close" data-dismiss="modal">&times;</button>
-															<h3>Add New Expense Item</h3>
-															<div class="form-group">
-																<form:label for="category" path="category"
-																	class="cols-sm-2 control-label">Category</form:label>
-																<div class="cols-sm-10">
-																	<div class="input-group">
-																		<span class="input-group-addon"><i
-																			class="fa fa-user fa" aria-hidden="true"></i></span>
-																		<form:select path="category" type="text"
-																			class="form-control" name="category" id="category"
-																			placeholder="Enter Category" required="required">
 
-																			<c:forEach var="category"
-																				items="${expenseCategories}">
-																				<form:option value="${category }"></form:option>
-																			</c:forEach>
 
-																		</form:select>
 
-																	</div>
+
+						<section id="contact">
+							<div class="container">
+								<div class="main-login main-center">
+									<div>
+										<button type="button" class="btn btn-primary"
+											data-toggle="modal" data-target="#myGodal">+Add
+											Expense Item</button>
+									</div>
+
+									<form:form class="form-horizontal" commandName="item"
+										action="./budget">
+										<div id="myGodal" class="modal fade" role="dialog">
+											<div class="modal-dialog">
+												<div class="modal-content">
+													<div class="modal-header">
+														<button type="button" class="close" data-dismiss="modal">&times;</button>
+														<h3>Add New Expense Item</h3>
+														<div class="form-group">
+															<form:label for="category" path="category"
+																class="cols-sm-2 control-label">Category</form:label>
+															<div class="cols-sm-10">
+																<div class="input-group">
+																	<span class="input-group-addon"><i
+																		class="fa fa-user fa" aria-hidden="true"></i></span>
+																	<form:select path="category" type="text"
+																		class="form-control" name="category" id="category"
+																		placeholder="Enter Category" required="required">
+
+																		<c:forEach var="category" items="${expenseCategories}">
+																			<form:option value="${category }"></form:option>
+																		</c:forEach>
+
+																	</form:select>
+
 																</div>
 															</div>
+														</div>
 
-															<div class="form-group">
-																<form:label for="plannedMoney" path="plannedMoney"
-																	class="cols-sm-2 control-label">Amount</form:label>
-																<div class="cols-sm-10">
-																	<div class="input-group">
-																		<span class="input-group-addon"><i
-																			class="fa fa-user fa" aria-hidden="true"></i></span>
-																		<form:input path="plannedMoney" type="text"
-																			class="form-control" name="plannedMoney"
-																			id="plannedMoney" placeholder="Enter Amount"
-																			required="required" />
-																	</div>
+														<div class="form-group">
+															<form:label for="plannedMoney" path="plannedMoney"
+																class="cols-sm-2 control-label">Amount</form:label>
+															<div class="cols-sm-10">
+																<div class="input-group">
+																	<span class="input-group-addon"><i
+																		class="fa fa-user fa" aria-hidden="true"></i></span>
+																	<form:input path="plannedMoney" type="text"
+																		class="form-control" name="plannedMoney"
+																		id="plannedMoney" placeholder="Enter Amount"
+																		required="required" />
 																</div>
 															</div>
-															<div class="form-group ">
-																<form:button type="submit"
-																	class="btn btn-primary btn-lg btn-block login-button"
-																	value="addBudgetItem">+Add</form:button>
-															</div>
+														</div>
+														<div class="form-group ">
+															<form:button type="submit"
+																class="btn btn-primary btn-lg btn-block login-button"
+																value="addBudgetItem">+Add</form:button>
 														</div>
 													</div>
 												</div>
 											</div>
-										</form:form>
-									</div>
+										</div>
+									</form:form>
 								</div>
-							</section>
+							</div>
+						</section>
 
 
-							<tr>
-								<th data-field="category" data-sortable="true">Category
-									name</th>
-								<th data-field="plannedMoney" data-sortable="true">Budgeted</th>
-								<th data-field="payedMoney" data-sortable="true">Actual</th>
-								<th data-field="leftMoney" data-sortable="true">What' left</th>
-							</tr>
-							<section id="contact">
-								<div class="container">
-									<div class="main-login main-center">
-										<c:forEach var="item" items="${budgetItems}">
-											<c:set var="itCat" value="${item.category}" />
-											<tr>
-												<td><details>
-														<summary>
-															<c:out value="${item.category}" />
-														</summary>
-														<table style="width: 100%">
+						<tr>
+							<th data-field="category" data-sortable="true">Category name</th>
+							<th data-field="plannedMoney" data-sortable="true">Budgeted</th>
+							<th data-field="payedMoney" data-sortable="true">Actual</th>
+							<th data-field="leftMoney" data-sortable="true">What' left</th>
+						</tr>
+						<section id="contact">
+							<div class="container">
+								<div class="main-login main-center">
+									<c:forEach var="item" items="${budgetItems}">
+										<c:set var="itCat" value="${item.category}" />
+										<tr>
+											<td><details>
+													<summary>
+														<c:out value="${item.category}" />
+													</summary>
+													<table style="width: 100%">
+														<tr>
+															<th>Description</th>
+															<th>Date</th>
+															<th>Amount</th>
+														</tr>
+
+														<c:forEach var="transaction"
+															items="${itemsNamesTransValues[itCat]}">
 															<tr>
-																<th>Description</th>
-																<th>Date</th>
-																<th>Amount</th>
+																<td><c:out value="${transaction.description}" /></td>
+																<td><c:out
+																		value="${transaction.timeOfTransactionString}" /></td>
+																<td><c:out value="${transaction.amount}" /></td>
 															</tr>
+														</c:forEach>
+													</table>
+												</details></td>
+											<td><c:out value="${item.plannedMoney}" /></td>
+											<td><c:out value="${item.payedMoney}" /> &nbsp;
+												<button type="button" class="btn btn-primary"
+													data-toggle="modal" data-target="#${item.category }">+</button></td>
+											<section id="contact">
+												<div class="container">
+													<div class="main-login main-center">
+														<form:form class="form-horizontal"
+															commandName="transaction" action="./transactionForm">
+															<div id="${item.category }" class="modal fade"
+																role="dialog">
+																<div class="modal-dialog">
+																	<div class="modal-content">
+																		<div class="modal-header">
+																			<button type="button" class="close"
+																				data-dismiss="modal">&times;</button>
+																			<h3>Add New Transaction</h3>
+																			<div class="form-group">
+																				<form:label for="description" path="description"
+																					class="cols-sm-2 control-label">Description</form:label>
+																				<div class="cols-sm-10">
+																					<div class="input-group">
+																						<span class="input-group-addon"><i
+																							class="fa fa-user fa" aria-hidden="true"></i></span>
+																						<form:input path="description" type="text"
+																							class="form-control" name="description"
+																							id="description" placeholder="Enter Description"
+																							required="required" />
+																						<form:input path="item_id" type="text"
+																							class="form-control" name="item_id" id="item_id"
+																							placeholder="Enter Category" required="required"
+																							value="${item.id}" />
 
-															<c:forEach var="transaction"
-																items="${itemsNamesTransValues[itCat]}">
-																<tr>
-																	<td><c:out value="${transaction.description}" /></td>
-																	<td><c:out
-																			value="${transaction.timeOfTransactionString}" /></td>
-																	<td><c:out value="${transaction.amount}" /></td>
-																</tr>
-															</c:forEach>
-														</table>
-													</details></td>
-												<td><c:out value="${item.plannedMoney}" /></td>
-												<td><c:out value="${item.payedMoney}" /> &nbsp;
-													<button type="button" class="btn btn-primary"
-														data-toggle="modal" data-target="#${item.category }">+</button></td>
-												<section id="contact">
-													<div class="container">
-														<div class="main-login main-center">
-															<form:form class="form-horizontal"
-																commandName="transaction" action="./transactionForm">
-																<div id="${item.category }" class="modal fade"
-																	role="dialog">
-																	<div class="modal-dialog">
-																		<div class="modal-content">
-																			<div class="modal-header">
-																				<button type="button" class="close"
-																					data-dismiss="modal">&times;</button>
-																				<h3>Add New Transaction</h3>
+																					</div>
+																				</div>
+																			</div>
+																			<div class="form-group">
+																				<form:label for="timeOfTransaction"
+																					path="timeOfTransaction"
+																					class="cols-sm-2 control-label">Date</form:label>
+																				<div class="cols-sm-10">
+
+																					<div class="input-group">
+																						<span class="input-group-addon"><i
+																							class="fa fa-user fa" aria-hidden="true"></i></span>
+																						<form:input type="date"
+																							path="timeOfTransactionString"
+																							name="timeOfTransactionString"
+																							id="timeOfTransactionString"></form:input>
+
+																					</div>
+																				</div>
 																				<div class="form-group">
-																					<form:label for="description" path="description"
-																						class="cols-sm-2 control-label">Description</form:label>
+																					<form:label for="amount" path="amount"
+																						class="cols-sm-2 control-label">Amount</form:label>
 																					<div class="cols-sm-10">
 																						<div class="input-group">
 																							<span class="input-group-addon"><i
 																								class="fa fa-user fa" aria-hidden="true"></i></span>
-																							<form:input path="description" type="text"
-																								class="form-control" name="description"
-																								id="description" placeholder="Enter Description"
-																								required="required" />
-																							<form:input path="item_id" type="text"
-																								class="form-control" name="item_id" id="item_id"
-																								placeholder="Enter Category" required="required"
-																								value="${item.id}" />
-
+																							<form:input path="amount" type="text"
+																								class="form-control" name="amount" id="amount"
+																								placeholder="Enter Amount" required="required" />
 																						</div>
 																					</div>
 																				</div>
-																				<div class="form-group">
-																					<form:label for="timeOfTransaction"
-																						path="timeOfTransaction"
-																						class="cols-sm-2 control-label">Date</form:label>
-																					<div class="cols-sm-10">
+																			</div>
 
-																						<div class="input-group">
-																							<span class="input-group-addon"><i
-																								class="fa fa-user fa" aria-hidden="true"></i></span>
-																							<form:input type="date"
-																								path="timeOfTransactionString"
-																								name="timeOfTransactionString"
-																								id="timeOfTransactionString"></form:input>
-
-																						</div>
-																					</div>
-																					<div class="form-group">
-																						<form:label for="amount" path="amount"
-																							class="cols-sm-2 control-label">Amount</form:label>
-																						<div class="cols-sm-10">
-																							<div class="input-group">
-																								<span class="input-group-addon"><i
-																									class="fa fa-user fa" aria-hidden="true"></i></span>
-																								<form:input path="amount" type="text"
-																									class="form-control" name="amount" id="amount"
-																									placeholder="Enter Amount" required="required" />
-																							</div>
-																						</div>
-																					</div>
-																				</div>
-
-																				<div class="form-group ">
-																					<form:button type="submit"
-																						class="btn btn-primary btn-lg btn-block login-button"
-																						value="addBudgetItem">+Add</form:button>
-																				</div>
+																			<div class="form-group ">
+																				<form:button type="submit"
+																					class="btn btn-primary btn-lg btn-block login-button"
+																					value="addBudgetItem">+Add</form:button>
 																			</div>
 																		</div>
 																	</div>
 																</div>
-															</form:form>
-														</div>
+															</div>
+														</form:form>
 													</div>
-												</section>
-												<td><c:out
-														value="${item.plannedMoney - item.payedMoney}" />
-											</tr>
-										</c:forEach>
+												</div>
+											</section>
+											<td><c:out
+													value="${item.plannedMoney - item.payedMoney}" />
+										</tr>
+									</c:forEach>
 
-										</td>
-									</div>
+									</td>
 								</div>
-							</section>
-						</table>
-					</div>
+							</div>
+						</section>
+					</table>
 				</div>
 			</div>
 		</div>
+	</div>
 	</div>
 
 

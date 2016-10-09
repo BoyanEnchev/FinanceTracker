@@ -9,9 +9,13 @@ import java.sql.Statement;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.TreeSet;
+
 import com.financetracker.controller.DBConnection;
 import com.financetracker.exception.BudgetItemException;
 import com.financetracker.exception.TransactionException;
@@ -30,7 +34,11 @@ public class UserDAO {
 	private static final String SELECT_BUDGET_ITEMS_SQL = "SELECT * FROM budget_items WHERE user_id = ?";
 	private static final String SELECT_TRANSACTIONS_SQL = "SELECT * FROM transactions WHERE item_id = ?";
 	private static final String GET_BUDGET_ITEM_BY_ID_SQL = "SELECT * FROM budget_items WHERE item_id = ?";
-	private static final String GET_TRANSACTIONS_FOR_LAST_7_DAYS = "SELECT * FROM transactions WHERE  date >= (SELECT CONVERT (VARCHAR(10), Getdate() - 6, 101)) AND date <= (SELECT CONVERT (VARCHAR(10), Getdate(), 101)) AND user_id = ? ORDER  BY timeOfTransaction";
+	private static final String GET_TRANSACTIONS_BY_USER_ID_SQL= "SELECT  amount, time_of_transaction, description, X.item_id, X.category_name "
+			+ "FROM (SELECT t.amount, t.time_of_transaction, t.description, u.user_id, b.item_id, b.category_name FROM transactions t "
+			+ "JOIN budget_items b ON (t.item_id = b.item_id) JOIN users u ON (b.user_id = u.user_id)) AS X "
+			+ "WHERE time_of_transaction > DATE_SUB(CURDATE(), INTERVAL 7 DAY) AND time_of_transaction <= CURDATE() AND user_id = ? "
+			+ "ORDER BY time_of_transaction;";
 
 
 	public Integer registerUser(User user) throws UserException {
@@ -257,61 +265,44 @@ public class UserDAO {
 		}
 	}
 	
-	public Map<BudgetItem, LinkedList<Transaction>> getTransactionsForLast7DaysByUserID(int id) throws UserException, BudgetItemException, TransactionException{
+	public TreeSet<Transaction> getTransactionsForTheLastFewDaysByUserId(int userId) throws UserException, TransactionException {
 		Connection connection = DBConnection.getInstance().getConnection();
 
-		Map<BudgetItem, LinkedList<Transaction>> itemsWithTransactions = new HashMap<BudgetItem, LinkedList<Transaction>>();
 		try {
-			PreparedStatement ps = connection.prepareStatement(SELECT_BUDGET_ITEMS_SQL);
-			ps.setInt(1, id);
+			PreparedStatement ps = connection.prepareStatement(GET_TRANSACTIONS_BY_USER_ID_SQL);
+			//ps.setInt(1, days);
+			ps.setInt(1, userId);
+
+            ResultSet rs = ps.executeQuery();
 			
-			ResultSet rs = ps.executeQuery();
-			
+            TreeSet<Transaction> transactions = new TreeSet<Transaction>(new Comparator<Transaction>() {
+				@Override
+				public int compare(Transaction o1, Transaction o2) {
+					
+					if(o1.getTimeOfTransaction().equals(o2.getTimeOfTransaction())){
+						return o1.getDescription().compareTo(o2.getDescription());
+					}
+					return o1.getTimeOfTransaction().compareTo(o2.getTimeOfTransaction());
+				}
+			});
 			while(rs.next()){
 				
+				int amount = rs.getInt(1);
+				Date date = rs.getDate(2);
+				String description = rs.getString(3);
 				
-				Date ts = rs.getDate(4);
-				Instant instant = Instant.ofEpochMilli(ts.getTime());
-				LocalDateTime res = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+				Transaction tr = new Transaction(amount, date.toString(), description);
+				tr.setTimeOfTransaction();
+				tr.setItem_id(rs.getInt(4));
+				tr.setCategory(rs.getString(5));
 				
-				BudgetItem item = new BudgetItem(rs.getInt(2), rs.getString(5), rs.getBoolean(6), res);
-				
-				item.setId(rs.getInt(1));
-				item.setPayedMoney(rs.getInt(3));
-				
-				LinkedList<Transaction> transactions = new LinkedList<Transaction>();
-				
-				PreparedStatement ps1 = connection.prepareStatement(SELECT_TRANSACTIONS_SQL);
-				
-				ps1.setInt(1, item.getId());
-				ResultSet rs1 = ps1.executeQuery();
-				
-				while(rs1.next()){
-					Date ts1 = rs1.getDate(3);
-					Instant instant1 = Instant.ofEpochMilli(ts1.getTime());
-					LocalDateTime res1 = LocalDateTime.ofInstant(instant1, ZoneId.systemDefault());
-					
-					Transaction transaction = new Transaction(rs1.getInt(2),rs1.getString(4));
-					transaction.setId(rs1.getInt(1));
-					transaction.setTimeOfTransactionString(rs1.getDate(3).toString());
-					transaction.setTimeOfTransaction();
-					
-					transactions.add(transaction);
-					//item.addTransaction(transaction);
-				
-				}
-				
-				
-				itemsWithTransactions.put(item, transactions);
+				transactions.add(tr);
 			}
 			
-			return itemsWithTransactions;
+			return transactions;
 
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-			throw new UserException("Saving item cannot be added right now, please try again later!", e);
+			throw new UserException("User cannot be registered now, please try again later.", e);
 		}
 	}
-
 }

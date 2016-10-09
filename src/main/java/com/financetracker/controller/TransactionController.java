@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.TreeSet;
 
 import javax.servlet.http.HttpSession;
 
@@ -26,13 +27,16 @@ import com.financetracker.model.UserDAO;
 @Controller
 public class TransactionController {
 	
+	
 	@RequestMapping(value = "/transactions", method = RequestMethod.GET)
 	public String loadTransactionsPage(Model model, HttpSession session) throws UserException, BudgetItemException, TransactionException{
 		
 		int userID = ((User) session.getAttribute("user")).getId();
-		Map<BudgetItem, LinkedList<Transaction>> itemsTransactionsMap = new UserDAO().getBudgetItemsAndTransactionsByUserID(userID);
-		Map<String, LinkedList<Transaction>> itemsNamesTransValues = new HashMap<>();
-		itemsTransactionsMap.forEach((budgetItem, list) -> itemsNamesTransValues.put(budgetItem.getCategory(), list));
+		
+		TreeSet<Transaction> transactions = (TreeSet<Transaction>) new UserDAO().getTransactionsForTheLastFewDaysByUserId(userID);
+
+		model.addAttribute("transactions", transactions);
+
 		
 		return "transactions";
 	}
@@ -63,9 +67,13 @@ public class TransactionController {
 			Map<BudgetItem, LinkedList<Transaction>> itemsTransactionsMap = new UserDAO().getBudgetItemsAndTransactionsByUserID(userID);
 			
 			ArrayList<BudgetItem> budgetItems = new ArrayList<BudgetItem>(itemsTransactionsMap.keySet());
+			
+			TreeSet<Transaction> transactions = (TreeSet<Transaction>) new UserDAO().getTransactionsForTheLastFewDaysByUserId(userID);
+
 						
 			model.addAttribute("budgetItems", budgetItems);
-			
+			model.addAttribute("user",session.getAttribute("user"));
+			model.addAttribute("transactions", transactions);
 			
 			
 			return "budget";
