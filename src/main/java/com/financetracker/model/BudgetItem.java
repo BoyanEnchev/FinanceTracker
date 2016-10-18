@@ -2,11 +2,8 @@ package com.financetracker.model;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -27,37 +24,28 @@ public class BudgetItem {
 	private List<Transaction> transactions = new ArrayList<Transaction>();
 
 	static {
-		expCategories.add("Housing");
-		expCategories.add("Shopping");
-		expCategories.add("Grocery");
-		expCategories.add("Automotive");
-		expCategories.add("Fuel");
-		expCategories.add("Car");
-		expCategories.add("Bank activity");
-		expCategories.add("Business");
-		expCategories.add("Child expenses");
-		expCategories.add("Debth");
-		expCategories.add("Education");
-		expCategories.add("Entertainment");
-		expCategories.add("Gifts");
-		expCategories.add("Medical");
-		expCategories.add("Insurance");
-		expCategories.add("Personal care");
-		expCategories.add("Taxes");
-		expCategories.add("Travel");
-		expCategories.add("Utilities");
-		expCategories.add("Uncategorised");
-
-		incCategories.add("Salary");
-		incCategories.add("Deposits");
-		incCategories.add("Interest");
-		incCategories.add("Investment income");
-		incCategories.add("Other income");
-		incCategories.add("Paychecks");
-		incCategories.add("Refunds");
-		incCategories.add("Retiremend income");
-		incCategories.add("Sales");
 		
+		ArrayList<String> expCategoriesDB;
+		try {
+			expCategoriesDB = (ArrayList<String>) new BudgetItemDAO().getExpenseCategories();
+			
+			expCategories.addAll(expCategoriesDB);
+			
+		} catch (BudgetItemException e) {
+			
+			e.printStackTrace();
+		}
+	
+		ArrayList<String> incCategoriesDB;
+		try {
+			incCategoriesDB = (ArrayList<String>) new BudgetItemDAO().getIncomeCategories();
+			
+			incCategories.addAll(incCategoriesDB);
+			
+		} catch (BudgetItemException e) {
+			
+			e.printStackTrace();
+		}
 	}
 
 	public BudgetItem() throws BudgetItemException {
@@ -77,12 +65,9 @@ public class BudgetItem {
 		return plannedMoney;
 	}
 
-	public void setPlannedMoney(int plannedMoney) throws BudgetItemException {
-		if (plannedMoney > 0) {
+	public void setPlannedMoney(int plannedMoney) {
+		
 			this.plannedMoney = plannedMoney;
-		} else {
-			throw new BudgetItemException("Invalid planned money! ");
-		}
 	}
 
 	public int getPayedMoney() {
@@ -124,6 +109,10 @@ public class BudgetItem {
 			throw new BudgetItemException("Invalid time of adding! ");
 	}
 
+	/* (non-Javadoc)
+	 * @see com.financetracker.model.IBudgetItem#addTransaction(com.financetracker.model.Transaction)
+	 */
+	
 	public void addTransaction(Transaction transaction) throws BudgetItemException, UserException {
 		if (transaction != null) {
 			this.transactions.add(transaction);

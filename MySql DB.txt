@@ -1,0 +1,133 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+-- -----------------------------------------------------
+-- Schema financetracker
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema financetracker
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `financetracker` DEFAULT CHARACTER SET utf8 ;
+USE `financetracker` ;
+
+-- -----------------------------------------------------
+-- Table `financetracker`.`users`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `financetracker`.`users` (
+  `user_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `email` VARCHAR(45) NOT NULL,
+  `first_name` VARCHAR(45) NOT NULL,
+  `last_name` VARCHAR(45) NOT NULL,
+  `password` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`user_id`),
+  UNIQUE INDEX `user_id_UNIQUE` (`user_id` ASC),
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC))
+ENGINE = InnoDB
+AUTO_INCREMENT = 54
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `financetracker`.`budget_items`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `financetracker`.`budget_items` (
+  `item_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `planned_money` INT(11) NOT NULL,
+  `payed_money` INT(11) NOT NULL,
+  `time_of_adding` DATETIME NOT NULL,
+  `category_name` VARCHAR(45) NOT NULL,
+  `expense_or_income` TINYINT(1) NOT NULL,
+  `user_id` INT(11) NOT NULL,
+  PRIMARY KEY (`item_id`),
+  UNIQUE INDEX `item_id_UNIQUE` (`item_id` ASC),
+  INDEX `fk_budget_items_users1_idx` (`user_id` ASC),
+  CONSTRAINT `fk_budget_items_users1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `financetracker`.`users` (`user_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+AUTO_INCREMENT = 113
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `financetracker`.`expcategories`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `financetracker`.`expcategories` (
+  `category_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `category_name` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`category_id`),
+  UNIQUE INDEX `category_id_UNIQUE` (`category_id` ASC))
+ENGINE = InnoDB
+AUTO_INCREMENT = 44
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `financetracker`.`inccategories`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `financetracker`.`inccategories` (
+  `category_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `category_name` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`category_id`),
+  UNIQUE INDEX `category_id_UNIQUE` (`category_id` ASC))
+ENGINE = InnoDB
+AUTO_INCREMENT = 19
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `financetracker`.`saving_items`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `financetracker`.`saving_items` (
+  `item_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `price` INT(11) NOT NULL,
+  `name` VARCHAR(45) NOT NULL,
+  `description` VARCHAR(45) NOT NULL,
+  `user_id` INT(11) NOT NULL,
+  PRIMARY KEY (`item_id`),
+  UNIQUE INDEX `item_id_UNIQUE` (`item_id` ASC),
+  INDEX `fk_saving_items_users1_idx` (`user_id` ASC),
+  CONSTRAINT `fk_saving_items_users1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `financetracker`.`users` (`user_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+AUTO_INCREMENT = 5
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `financetracker`.`transactions`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `financetracker`.`transactions` (
+  `transaction_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `amount` INT(11) NOT NULL,
+  `time_of_transaction` DATE NOT NULL,
+  `description` VARCHAR(100) NOT NULL,
+  `item_id` INT(11) NOT NULL,
+  PRIMARY KEY (`transaction_id`),
+  UNIQUE INDEX `transaction_id_UNIQUE` (`transaction_id` ASC),
+  INDEX `fk_transactions_budget_items1_idx` (`item_id` ASC),
+  CONSTRAINT `fk_transactions_budget_items1`
+    FOREIGN KEY (`item_id`)
+    REFERENCES `financetracker`.`budget_items` (`item_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+AUTO_INCREMENT = 497
+DEFAULT CHARACTER SET = utf8;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

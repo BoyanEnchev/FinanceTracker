@@ -1,0 +1,44 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install',
+1 verbose cli   'chart.min.js' ]
+2 info using npm@2.15.9
+3 info using node@v4.6.0
+4 verbose install initial load of D:\MyProject\src\main\webapp\static\js\package.json
+5 verbose readDependencies loading dependencies from D:\MyProject\src\main\webapp\static\js\package.json
+6 silly cache add args [ 'chart.min.js', null ]
+7 verbose cache add spec chart.min.js
+8 silly cache add parsed spec Result {
+8 silly cache add   raw: 'chart.min.js',
+8 silly cache add   scope: null,
+8 silly cache add   name: null,
+8 silly cache add   rawSpec: 'chart.min.js',
+8 silly cache add   spec: 'D:\\MyProject\\src\\main\\webapp\\static\\js\\chart.min.js',
+8 silly cache add   type: 'local' }
+9 silly addLocalTarball shasum (computed) ed13ef4170b930d792d79df8e3645dde120c9a9a
+10 verbose addTmpTarball D:\MyProject\src\main\webapp\static\js\chart.min.js not in flight; adding
+11 verbose correctMkdir C:\Users\Vankata\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
+12 verbose addTmpTarball validating metadata from D:\MyProject\src\main\webapp\static\js\chart.min.js
+13 verbose tar unpack D:\MyProject\src\main\webapp\static\js\chart.min.js
+14 verbose tar unpacking to C:\Users\Vankata\AppData\Local\Temp\npm-13320-95044643\unpack-6460ca9f6d93
+15 silly gentlyRm C:\Users\Vankata\AppData\Local\Temp\npm-13320-95044643\unpack-6460ca9f6d93 is being purged
+16 verbose gentlyRm don't care about contents; nuking C:\Users\Vankata\AppData\Local\Temp\npm-13320-95044643\unpack-6460ca9f6d93
+17 silly gunzTarPerm modes [ '777', '666' ]
+18 error not a package D:\MyProject\src\main\webapp\static\js\chart.min.js
+19 error addLocal Could not install D:\MyProject\src\main\webapp\static\js\chart.min.js
+20 verbose stack Error: ENOENT: no such file or directory, open 'C:\Users\Vankata\AppData\Local\Temp\npm-13320-95044643\unpack-6460ca9f6d93\package.json'
+20 verbose stack     at Error (native)
+21 verbose cwd D:\MyProject\src\main\webapp\static\js
+22 error Windows_NT 10.0.14393
+23 error argv "C:\\Program Files\\nodejs\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "chart.min.js"
+24 error node v4.6.0
+25 error npm  v2.15.9
+26 error path C:\Users\Vankata\AppData\Local\Temp\npm-13320-95044643\unpack-6460ca9f6d93\package.json
+27 error code ENOENT
+28 error errno -4058
+29 error syscall open
+30 error enoent ENOENT: no such file or directory, open 'C:\Users\Vankata\AppData\Local\Temp\npm-13320-95044643\unpack-6460ca9f6d93\package.json'
+30 error enoent This is most likely not a problem with npm itself
+30 error enoent and is related to npm not being able to find a file.
+31 verbose exit [ -4058, true ]

@@ -12,7 +12,16 @@
 
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/styles.css" rel="stylesheet">
+<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
 
+<style>
+
+#btn-search-trans {
+	background-color: #30a5ff;
+	color: #fff;
+}
+
+</style>
 
 </head>
 
@@ -32,14 +41,9 @@
 					<li class="dropdown pull-right"><a href="#"
 						class="dropdown-toggle" data-toggle="dropdown"><svg
 								class="glyph stroked male-user">
-								<use xlink:href="#stroked-male-user"></use></svg> Hi, <c:out
-								value="${user.firstName}" /> <span class="caret"></span></a>
+								<use xlink:href="#stroked-male-user"></use></svg></a>
 						<ul class="dropdown-menu" role="menu">
-							<li><a href="#"><svg class="glyph stroked male-user">
-										<use xlink:href="#stroked-male-user"></use></svg> Profile</a></li>
-							<li><a href="#"><svg class="glyph stroked gear">
-										<use xlink:href="#stroked-gear"></use></svg> Settings</a></li>
-							<li><a href="#"><svg class="glyph stroked cancel">
+							<li><a href="index"><svg class="glyph stroked cancel">
 										<use xlink:href="#stroked-cancel"></use></svg> Logout</a></li>
 						</ul></li>
 				</ul>
@@ -50,17 +54,12 @@
 	</nav>
 
 	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
-		<form role="search">
-			<div class="form-group">
-				<input type="text" class="form-control" placeholder="Search">
-			</div>
-		</form>
+		
 		<ul class="nav menu">
 			<li><a href="budget"> Budget</a></li>
 			<li><a href="charts"> Charts</a></li>
 			<li class="active"><a href="transactions"> Transactions</a></li>
 			<li><a href="savingItems"> Saving Items</a></li>
-			<li><a href="index"> Login Page</a></li>
 		</ul>
 	</div>
 
@@ -68,13 +67,17 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="panel panel-default">
-					<div class="panel-heading">Transactions - Last 7 days</div>
+					<div class="panel-heading">Transactions for a period of time</div>
 					<div class="panel-body">
-						<form:form name="frm" method="post" action="">
-							<input type="hidden" name="hdnbt" />
-							<input type="button" name="bt" value="gi"
-								onclick="{document.frm.hdnbt.value=this.value;document.frm.submit();}" />
-						</form:form>
+						<div class="panel-heading">Select a time span</div>
+						<form name="dati" action="listTransactions"
+							onsubmit="return checkDateRange(d1,d2)">
+
+							<input type="date" id="d1" name="startDate"
+								placeholder="Start Date" required="required"/> <input type="date" id="d2"
+								name="endDate" placeholder="End Date" required="required"/> <input type="submit"
+								class="w3-btn w3-padding-small" id="btn-search-trans" value="Search">
+						</form>
 
 						<table data-toggle="table" data-url="tables/data1.json"
 							data-show-refresh="true" data-show-toggle="true"
@@ -92,7 +95,7 @@
 							<section id="contact">
 								<div class="container">
 									<div class="main-login main-center">
-										<c:forEach var="transaction" items="${transactions}">
+										<c:forEach var="transaction" items="${transactionsInTimeSpan}">
 											<tr>
 												<td><c:out
 														value="${transaction.timeOfTransactionString}" /></td>
@@ -111,8 +114,43 @@
 		</div>
 	</div>
 
+	<!-- 
+	<form:form name="frm" method="post" action="">
+		<input type="hidden" name="hdnbt" />
+		<input type="button" name="bt" value="gi"
+			onclick="{document.frm.hdnbt.value=this.value;document.frm.submit();}" />
+	</form:form>
+ -->
 
+	<script>
+		function checkDateRange(start, end) {
+			// Parse the entries
+			var start = document.getElementById('d1').value;
+			var startDate = new Date(start);
+			var end = document.getElementById('d2').value;
+			var endDate = new Date(end);
+			console.log(startDate)
+			console.log(endDate)
 
+			// Check the date range, 86400000 is the number of milliseconds in one day
+			var difference = (endDate - startDate) / (86400000 * 7);
+			if (difference < 0) {
+				alert("The start date must come before the end date.");
+				return false;
+			}
+			if (difference <= 1) {
+				alert("The range must be at least seven days apart.");
+				return false;
+			}
+			return true;
+		}
+
+		function validate(form) {
+			//forms processsing goes here...
+			console.log(form, form.name)
+			return false;
+		}
+	</script>
 
 
 	<script type="text/javascript" src="js/jquery.js"></script>

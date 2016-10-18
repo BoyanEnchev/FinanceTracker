@@ -11,7 +11,7 @@ public class DBConnection {
 	private static final String DB_PORT = "3306";
 	private static final String DATABASE = "financetracker?useSSL=false";
 	private static final String DB_USER = "root";
-	private static final String DB_PASSWORD = "mysqlrootpassword";
+	private static final String DB_PASSWORD = "b15q14__";
 	
 	private DBConnection() {
 		try {

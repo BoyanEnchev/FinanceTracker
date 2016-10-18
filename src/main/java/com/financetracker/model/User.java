@@ -52,7 +52,7 @@ public class User {
 	}
 
 	public User() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	public String getFirstName() {
@@ -107,24 +107,7 @@ public class User {
 	static boolean isStringValid(String string) {
 		return ((string != null) && (string.trim().length() > 0));
 	}
-	// 1 malka bukva, 1 glavna bukva, 1 cifra, dyljina-6
-	static boolean isPasswordValid(String password) {
-		boolean hasSmallCase = false, hasUpperCase = false, hasDigit = false;
-		if (password.length() >= MIN_LENGTH_FOR_PASSWORD) {
-			for (int symbol = 0; symbol < password.length(); symbol++) {
-				if ((password.charAt(symbol) >= 'a') && (password.charAt(symbol) <= 'z')) {
-					hasSmallCase = true;
-				}
-				if ((password.charAt(symbol) >= 'A') && (password.charAt(symbol) <= 'Z')) {
-					hasUpperCase = true;
-				}
-				if ((password.charAt(symbol) >= '0') && (password.charAt(symbol) <= '9')) {
-					hasDigit = true;
-				}
-			}
-		}
-		return hasDigit && hasSmallCase && hasUpperCase;
-	}
+	
 
 	public void addBudgetItem(BudgetItem item) throws UserException{
 		if(item != null){
@@ -147,7 +130,7 @@ public class User {
 	public void addSavingItem(SavingItem item) throws UserException{
 		if(item != null){
 			this.savingItems.add(item);
-			new UserDAO().addSavingItem(this, item);
+			new SavingItemDAO().addSavingItem(this, item);
 		}else{
 			throw new UserException("Invalid saving item! ");
 		}
@@ -169,6 +152,27 @@ public class User {
 				+ savingItems + "]";
 	}
 	
-	
+	// 1 malka bukva, 1 glavna bukva, 1 cifra, dyljina-6
+		static boolean isPasswordValid(String password) {
+			
+			
+			boolean hasSmallCase = false, hasUpperCase = false, hasDigit = false;
+			if (password.length() >= MIN_LENGTH_FOR_PASSWORD) {
+				for (int symbol = 0; symbol < password.length(); symbol++) {
+					if ((password.charAt(symbol) >= 'a') && (password.charAt(symbol) <= 'z')) {
+						hasSmallCase = true;
+					}
+					if ((password.charAt(symbol) >= 'A') && (password.charAt(symbol) <= 'Z')) {
+						hasUpperCase = true;
+					}
+					if ((password.charAt(symbol) >= '0') && (password.charAt(symbol) <= '9')) {
+						hasDigit = true;
+					}
+				}
+			}
+			
+			boolean check = hasSmallCase && hasUpperCase && hasDigit;
+			
+		}
 	
 }

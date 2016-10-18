@@ -7,11 +7,19 @@
 <html lang="en">
 
 <head>
+<!-- 
 <script type="text/javascript"
 	src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.min.js"></script>
 
 <script type="text/javascript"
 	src="<c:url value="js/jquery-3.1.1.min.js"/>"></script> 
+ -->
+
+<script
+	src="http://ajax.aspnetcdn.com/ajax/modernizr/modernizr-2.8.3.js"></script>
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
+
 
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -78,7 +86,6 @@
 
 <body id="page-top">
 
-
 	<nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
 		<div class="container-fluid">
 			<!-- Brand and toggle get grouped for better mobile display -->
@@ -97,8 +104,8 @@
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav navbar-right">
 					<li><a class="page-scroll" href="#about">Start</a></li>
-					<li><a class="page-scroll" href="#services">Sign up</a></li>
-					<li><a class="page-scroll" href="#contact">Sign in</a></li>
+					<li><a class="page-scroll" href="#services">Sign in</a></li>
+					<li><a class="page-scroll" href="#contact">Sign up</a></li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
@@ -133,7 +140,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12 text-center">
-					<h2 class="section-heading">Sign up</h2>
+					<h2 class="section-heading">Sign in</h2>
 					<hr class="primary">
 				</div>
 			</div>
@@ -158,16 +165,6 @@
 						<div class="col-sm-6 col-sm-offset-3">
 							<input type="submit" name="login-submit" id="login-submit"
 								tabindex="4" class="form-control btn btn-login" value="Log In">
-						</div>
-					</div>
-				</div>
-				<div class="form-group">
-					<div class="row">
-						<div class="col-lg-12">
-							<div class="text-center">
-								<a href="http://phpoll.com/recover" tabindex="5"
-									class="forgot-password">Forgot Password?</a>
-							</div>
 						</div>
 					</div>
 				</div>
@@ -198,7 +195,9 @@
 							class="cols-sm-2 control-label">Your
 							First Name</form:label>
 						<form:input id="firstName" path="firstName" name="firstName"
-							type="text" cssClass="form-control" />
+							type="text" cssClass="form-control" pattern="[A-Z]{1}[a-z]{2,}"
+							title="First letter capital, at least 3 letters"
+							required="required" />
 						<form:errors path="firstName" />
 					</div>
 
@@ -207,7 +206,9 @@
 							class="cols-sm-2 control-label">Your
 							Last Name</form:label>
 						<form:input id="LastName" path="LastName" name="LastName"
-							type="text" cssClass="form-control" />
+							type="text" cssClass="form-control" pattern="[A-Z]{1}[a-z]{2,}"
+							title="First letter capital, at least 3 letters"
+							required="required" />
 						<form:errors path="lastName" />
 					</div>
 
@@ -216,16 +217,22 @@
 							class="cols-sm-2 control-label">Your
 							Email</form:label>
 						<form:input id="email" path="email" name="email" type="text"
-							cssClass="form-control" />
+							title="Enter a valid email" cssClass="form-control"
+							pattern="[a-z0-9]+@[a-z]+\.[a-z]{2,3}" required="required" />
 						<form:errors path="email" />
 					</div>
-
+					<div>
+						<c:out value="${existingEmailMessage }"/>
+					</div>
 					<div class="form-group">
 						<form:label for="password" path="password"
 							class="cols-sm-2 control-label">Your
 							Password</form:label>
 						<form:input id="password" path="password" name="password"
-							type="password" cssClass="form-control" />
+							title="(UpperCase, LowerCase, Number/SpecialChar and min 8 Chars)"
+							type="password" cssClass="form-control"
+							pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
+							required="required" />
 						<form:errors path="password" />
 					</div>
 
@@ -236,7 +243,10 @@
 							class="cols-sm-2 control-label">Confirm
 							Password</form:label>
 						<form:input id="confirm" path="confirm" name="confirm"
-							type="password" cssClass="form-control" />
+							title="(UpperCase, LowerCase, Number/SpecialChar and min 8 Chars)"
+							type="password" cssClass="form-control"
+							pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
+							required="required" oninput="validatePassword(this)" />
 						<form:errors path="confirm" />
 					</div>
 
@@ -251,45 +261,57 @@
 						<a href="#services">Login</a>
 					</div>
 				</form:form>
-				
-				<script type="text/javascript">
-					$(document).ready(function() {
-						$(".registrationForm").validate({
 
-							rules : {
-								firstName : {
-									required : true,
-									minlength : 2
-								},
-								lastName : {
-									required : true,
-									minlength : 2
-								},
-								email : {
-									required : true,
-									email : true
-								},
-								password : {
-									required : true,
-									minlength : 6,
-									maxlength : 50
-								},
-								confirm : {
-									required : true,
-									minlength : 6,
-									maxlength : 50,
-									equalTo : "#password"
-								}
-							}
-						});
-					});
-				</script>
+
 			</div>
 		</div>
 	</section>
 
 
 
+
+
+	<script type="text/javascript">
+		var password = document.getElementById("password");
+
+		function validatePassword(confirm) {
+			if (password.value != confirm.value) {
+				confirm.setCustomValidity("Passwords Don't Match");
+			} else {
+				confirm.setCustomValidity('');
+			}
+		}
+		/*$(document).ready(function() {
+			$(".registrationForm").validate(){
+
+				rules : {
+					firstName : {
+						required : true,
+						minlength : 2
+					},
+					lastName : {
+						required : true,
+						minlength : 2
+					},
+					email : {
+						required : true,
+						email : true
+					},
+					password : {
+						required : true,
+						minlength : 6,
+						maxlength : 50
+					},
+					confirm : {
+						required : true,
+						minlength : 6,
+						maxlength : 50,
+						equalTo : "#password"
+					}
+				}
+			};
+		});*/
+	</script>
 
 
 	<!--  

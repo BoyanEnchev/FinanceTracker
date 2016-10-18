@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Implementation-Title: MyProject
 Implementation-Version: 0.0.1-SNAPSHOT
-Built-By: Vankata
+Built-By: Asus
 Implementation-Vendor-Id: com.example
 Build-Jdk: 1.8.0_101
 Created-By: Maven Integration for Eclipse

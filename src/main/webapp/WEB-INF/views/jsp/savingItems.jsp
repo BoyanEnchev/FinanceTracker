@@ -16,6 +16,135 @@
 
 </head>
 
+<style>
+}
+.FAQ {
+	vertical-align: top;
+	height: auto !important;
+}
+
+.list {
+	display: none;
+	height: auto;
+	margin: 0;
+	float: left;
+}
+
+.show {
+	display: none;
+}
+
+.hide:target+.show {
+	display: inline;
+}
+
+.hide:target {
+	display: none;
+}
+
+.hide:target ~ .list {
+	display: inline;
+} /*style the (+) and
+(-) */
+.hide, .show {
+	width: 30px;
+	height: 30px;
+	border-radius: 30px;
+	font-size: 20px;
+	color: #fff;
+	text-shadow: 0 1px 0 #666;
+	text-align: center;
+	text-decoration:;
+	box-shadow: 1px 1px 2px #000;
+	background: #cccbbb;
+	opacity: .95;
+	margin-right: 0;
+	float: left;
+	margin-bottom: 25px;
+}
+
+.hide:hover, .show:hover {
+	color: #eee;
+	text-shadow: 0 0 1px #666;
+	text-decoration: none;
+	box-shadow: 0 0 4px #222 inset;
+	opacity: 1;
+	margin-bottom: 25px;
+}
+
+.list p {
+	height: auto;
+	margin: 0;
+}
+
+.question {
+	float: left;
+	height: auto;
+	width: 90%;
+	line-height: 20px;
+	padding-left: 20px;
+	margin-bottom: 25px;
+	font-style: italic;
+}
+
+.btn-add-trans {
+	background-color: #4CAF50;
+	height: 25px;
+	width: 25px;
+	margin-left: 5px;
+	border-radius: 100%;
+	border: none;
+	color: white; /* padding: 15px 32px;
+*/
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+}
+
+.table-trans {
+	border-radius: 2px;
+	height: 27px;
+	margin: 2px;
+	padding: 5px;
+	text-align: right;
+}
+
+.budget-buttons {
+	background-color: transparent;
+	border-color: transparent;
+}
+
+#actual {
+	color: #a91729;
+}
+
+#budgeted {
+	color: #5f6468;
+}
+
+#income {
+	color: #008040;
+}
+
+#btn-add-income {
+	background-color: #30a5ff;
+	color: #fff;
+}
+
+#btn-add-expense {
+	background-color: #30a5ff;
+	color: #fff;
+}
+
+#unique ul li {
+	list-style: none;
+	display: inline;
+	margin: 0;
+	padding: 0;
+}
+</style>
+
 <body>
 
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -32,14 +161,9 @@
 					<li class="dropdown pull-right"><a href="#"
 						class="dropdown-toggle" data-toggle="dropdown"><svg
 								class="glyph stroked male-user">
-								<use xlink:href="#stroked-male-user"></use></svg> Hi, <c:out
-								value="${user.firstName}" /> <span class="caret"></span></a>
+								<use xlink:href="#stroked-male-user"></use></svg> <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
-							<li><a href="#"><svg class="glyph stroked male-user">
-										<use xlink:href="#stroked-male-user"></use></svg> Profile</a></li>
-							<li><a href="#"><svg class="glyph stroked gear">
-										<use xlink:href="#stroked-gear"></use></svg> Settings</a></li>
-							<li><a href="#"><svg class="glyph stroked cancel">
+							<li><a href="index"><svg class="glyph stroked cancel">
 										<use xlink:href="#stroked-cancel"></use></svg> Logout</a></li>
 						</ul></li>
 				</ul>
@@ -50,17 +174,11 @@
 	</nav>
 
 	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
-		<form role="search">
-			<div class="form-group">
-				<input type="text" class="form-control" placeholder="Search">
-			</div>
-		</form>
 		<ul class="nav menu">
 			<li><a href="budget"> Budget</a></li>
 			<li><a href="charts"> Charts</a></li>
 			<li><a href="transactions"> Transactions</a></li>
 			<li class="active"><a href="savingItems"> Saving Items</a></li>
-			<li><a href="index"> Login Page</a></li>
 		</ul>
 	</div>
 
@@ -75,13 +193,27 @@
 							<th data-field="price" data-sortable="true">Price</th>
 							<th data-field="name" data-sortable="true">Name</th>
 							<th data-field="description" data-sortable="true">Description</th>
+							<th data-field="deleteSavingItem">Delete</th>
 						</tr>
-						<c:forEach var="savingItem"
-							items="${savingItems}">
+						<c:forEach var="savingItem" items="${savingItems}">
 							<tr>
 								<td><c:out value="${savingItem.price}" /></td>
 								<td><c:out value="${savingItem.name}" /></td>
 								<td><c:out value="${savingItem.description}" /></td>
+								<td>
+									<form title="Delete Saving Item" action="deleteSavingItem"
+										method="post" onsubmit='redirect();return false;'>
+										<input type="text" class="budget-buttons" name="deletedItemPrice"
+											value="${savingItem.price}" style="display: none">
+											<input type="text" class="budget-buttons" name="deletedItemName"
+											value="${savingItem.name}" style="display: none">
+											<input type="text" class="budget-buttons" name="deletedItemDesc"
+											value="${savingItem.description}" style="display: none">
+											<input
+											type="image" name="submit" alt="Submit"
+											src="data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTkuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCA0NzMgNDczIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA0NzMgNDczOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgd2lkdGg9IjI0cHgiIGhlaWdodD0iMjRweCI+CjxnPgoJPHBhdGggZD0iTTMxNy42NjcsMjE0LjQybDUuNjY3LTg2LjQyaDIwLjk1MVYzOGgtOTguMzg0VjBIMTMyLjY2OXYzOEgzNC4yODV2OTBoMjAuOTUxbDIwLDMwNWgxNDAuNTcxICAgYzIzLjU3OCwyNC42MzUsNTYuNzY2LDQwLDkzLjQ3OCw0MGM3MS4zNjgsMCwxMjkuNDMtNTguMDYyLDEyOS40My0xMjkuNDNDNDM4LjcxNSwyNzUuMDE5LDM4NS4xNDMsMjE4Ljc1NSwzMTcuNjY3LDIxNC40MnogICAgTTE2Mi42NjksMzBoNTMuMjMydjhoLTUzLjIzMlYzMHogTTY0LjI4NSw2OGgyNTB2MzBoLTI1MFY2OHogTTEwMy4zMzQsNDAzTDg1LjMwMSwxMjhIMjkzLjI3bC01Ljc3LDg3Ljk4NSAgIGMtNjEuMDMxLDEwLjM4OC0xMDcuNjQ1LDYzLjY0Mi0xMDcuNjQ1LDEyNy41ODZjMCwyMS40MTEsNS4yMzEsNDEuNjIyLDE0LjQ3NSw1OS40M0gxMDMuMzM0eiBNMzA5LjI4NSw0NDMgICBjLTU0LjgyNiwwLTk5LjQzLTQ0LjYwNC05OS40My05OS40M3M0NC42MDQtOTkuNDI5LDk5LjQzLTk5LjQyOXM5OS40Myw0NC42MDQsOTkuNDMsOTkuNDI5UzM2NC4xMTEsNDQzLDMwOS4yODUsNDQzeiIgZmlsbD0iIzYzNjA2MyIvPgoJPHBvbHlnb24gcG9pbnRzPSIzNDIuMjQ4LDI4OS4zOTUgMzA5LjI4NSwzMjIuMzU4IDI3Ni4zMjIsMjg5LjM5NSAyNTUuMTA5LDMxMC42MDggMjg4LjA3MiwzNDMuNTcxIDI1NS4xMDksMzc2LjUzMyAgICAyNzYuMzIyLDM5Ny43NDYgMzA5LjI4NSwzNjQuNzgzIDM0Mi4yNDgsMzk3Ljc0NiAzNjMuNDYxLDM3Ni41MzMgMzMwLjQ5OCwzNDMuNTcxIDM2My40NjEsMzEwLjYwOCAgIiBmaWxsPSIjNjM2MDYzIi8+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPC9zdmc+Cg==">
+									</form>
+								</td>
 							</tr>
 						</c:forEach>
 					</table>
@@ -124,6 +256,7 @@
 																	class="fa fa-user fa" aria-hidden="true"></i></span>
 																<form:input path="name" type="text" class="form-control"
 																	name="name" id="name" placeholder="Enter Name"
+																	pattern="[a-zA-Z0-9\s]+" title="Only text"
 																	required="required" />
 															</div>
 														</div>
@@ -139,6 +272,7 @@
 																<form:input path="description" type="text"
 																	class="form-control" name="description"
 																	id="description" placeholder="Enter Description"
+																	pattern="[a-zA-Z0-9\s]+" title="Only text"
 																	required="required" />
 															</div>
 														</div>

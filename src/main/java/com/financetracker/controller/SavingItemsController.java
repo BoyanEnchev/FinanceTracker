@@ -10,14 +10,15 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.financetracker.exception.BudgetItemException;
 import com.financetracker.exception.SavingItemException;
 import com.financetracker.exception.TransactionException;
 import com.financetracker.exception.UserException;
 import com.financetracker.model.SavingItem;
+import com.financetracker.model.SavingItemDAO;
 import com.financetracker.model.User;
-import com.financetracker.model.UserDAO;
 
 @Controller
 public class SavingItemsController {
@@ -31,7 +32,7 @@ public class SavingItemsController {
 
 		model.addAttribute("savingItem", new SavingItem());
 		
-		TreeSet<SavingItem> savingItems = new UserDAO().getSavingItemsByUserId(user.getId());
+		TreeSet<SavingItem> savingItems = new SavingItemDAO().getSavingItemsByUserId(user.getId());
 
 		model.addAttribute("savingItems", savingItems);
 		
@@ -39,33 +40,45 @@ public class SavingItemsController {
 	}
 
 	@RequestMapping(value = "/savingItems", method = RequestMethod.POST)
-	public String addBudgetItemForm(Model model, @ModelAttribute("savingItem") SavingItem sItem, BindingResult result,
+	public String addSavingItemForm(Model model, @ModelAttribute("savingItem") SavingItem item, BindingResult result,
 			HttpSession session) throws BudgetItemException, TransactionException, UserException {
 
 		if (result.hasErrors()) {
 
 			model.addAttribute("user", session.getAttribute("user"));
 
-			SavingItem savingItem = new SavingItem();
-
-			model.addAttribute("savingItem", savingItem);
-
 			return "savingItems";
 		} else {
 
 			try {
 				User user = (User) session.getAttribute("user");
-
-				Integer id = new UserDAO().addSavingItem(user, sItem);
-
-				sItem.setId(id);
+				
+				new SavingItemDAO().addSavingItem(user, item);
+				
+				//item.setId(id);
 
 			} catch (UserException e) {
 				model.addAttribute("error", e);
 			}
-			session.setAttribute("sItem" + sItem.getId(), sItem);
+			session.setAttribute("sItem" + item.getId(), item);
 
 			return "redirect:savingItems";
 		}
 	}
-}
+	
+	  @RequestMapping(value = "/deleteSavingItem", method = RequestMethod.POST)
+	    public String deleteSavingItemForm(@RequestParam("deletedItemName") String itemName, @RequestParam("deletedItemDesc") String itemDesc,@RequestParam("deletedItemPrice") int itemPrice, HttpSession session) throws SavingItemException {
+		   
+		   try {
+			   User user = (User) session.getAttribute("user");
+			   
+			new SavingItemDAO().deleteSavingItem(itemName, itemDesc, itemPrice, user.getId());
+			
+		} catch (UserException e) {
+
+		throw new SavingItemException("Saving item cannot be deleted right now! ");
+		}
+		   
+	        return "forward:savingItems";
+	    }
+	}

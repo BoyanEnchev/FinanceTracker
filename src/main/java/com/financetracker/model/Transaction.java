@@ -1,7 +1,6 @@
 package com.financetracker.model;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import com.financetracker.exception.TransactionException;
 
